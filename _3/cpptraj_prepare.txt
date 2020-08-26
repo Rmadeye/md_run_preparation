@@ -1,0 +1,6 @@
+parm ../lig-prot-solv.parm7
+trajin *.nc 1000 2000 1
+strip !(:1-XXX) outprefix stripped
+trajout merged.nc
+run
+quit

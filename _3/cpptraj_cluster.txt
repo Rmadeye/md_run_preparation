@@ -1,0 +1,6 @@
+parm stripped.lig-prot-solv.parm7
+trajin merged.nc
+rms first 1-XXX-1@C,CA,O,N
+cluster C0 out cnumvtime.dat summary summary.dat info info.dat rms :UNL nofit clusters 5 clusterout cluster clusterfmt netcdf repout representative repfmt pdb
+run
+exit

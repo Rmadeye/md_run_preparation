@@ -1,0 +1,10 @@
+source leaprc.gaff
+source leaprc.protein.ff14SB
+source leaprc.water.tip3p
+lig = loadmol2 lig.mol2
+loadamberparams lig.frcmod
+prot = loadpdb prot.pqr
+com = combine {prot, lig}
+solvateOct com TIP3PBOX 12.0
+addions com Na+ 0
+saveamberparm com lig-prot-solv.parm7 lig-prot-solv.rst7
