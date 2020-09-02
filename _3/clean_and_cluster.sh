@@ -1,4 +1,6 @@
+#!/usr/bin/bash
+
 source ~/amber18/amber.sh
 
-cpptraj -f cpptraj_prepare.txt
-cpptraj -f cpptraj_cluster.txt
+cpptraj cpptraj_prepare.txt
+cpptraj cpptraj_cluster.txt
