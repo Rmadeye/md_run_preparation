@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 
-source ~/amber18/amber.sh
+source ~/amber20_src/amber.sh
 
 ante-MMPBSA.py -p ../stripped.lig-prot-solv.parm7 -s !"(:1-436)" -c com.parm7 -m ":1-435" -r prot.parm7 -l lig.parm7 --radii=mbondi2
 

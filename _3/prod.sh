@@ -1,4 +1,4 @@
-source ~/amber18/amber.sh
+source ~/amber20_src/amber.sh
 
 filename=`basename ${PWD%/*}`;
 
