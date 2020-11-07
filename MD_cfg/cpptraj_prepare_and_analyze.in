@@ -8,7 +8,7 @@ clear trajin
 trajin ../postprocessing/merged_centered.nc
 radgyr radius !(@H=) out directoryname.csv mass nomax
 reference ../postprocessing/minim.pdb [min]
-rms distplot (1-complex&!@H=) ref [min] out directoryname.csv
+rms distplot (:1-complex&!@H=) ref [min] out directoryname.csv
 reference ../postprocessing/average.pdb [avg]
 atomicfluct rmsf out directoryname.csv !@H= byres bfactor
 rms ligand_rmsd :ligandindex&!:H= first out directoryname.csv

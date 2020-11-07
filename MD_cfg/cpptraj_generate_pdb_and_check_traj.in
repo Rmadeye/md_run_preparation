@@ -1,5 +1,5 @@
 parm ../parms/stripped.lig-prot-solv.parm7
-trajin ../_2/*.nc
+trajin ../_2/mdcrd
 trajout ../_2/checked_confirmed.nc
 run
 clear all
