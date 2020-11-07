@@ -1,0 +1,12 @@
+parm ../parms/stripped.lig-prot-solv.parm7
+trajin ../_2/*.nc
+trajout ../_2/checked_confirmed.nc
+run
+clear all
+parm ../parms/lig-prot-solv.parm7
+trajin ../rst7s/lig-prot-solv_min.rst7
+strip !(:1-complex)
+trajout ../postprocessing/minim.pdb
+run
+
+
