@@ -19,7 +19,7 @@
 6. To perform MM/GBSA analysis, use analyze script from MMGBSA directory
 ###### **Disclaimer**
 
-This is a script I wrote for myself to speed up my work - I assume you have already read Amber tutorials and manuals and you are aware what you need to change to satisfy your needs.\
+This is a script I wrote for myself to speed up my work - I assume you have already read Amber tutorials and manuals and you are aware what you need to change to satisfy your needs. I take no responsibility of any failures :) \
 So far it wasn't thoroughly tested and may fail at several points - then it's up to you to apply changes or let me know what can be done for improvement.
 The script automatically removes any water and ions from the trajectories to save disk space. If you want to have these molecules - change ntwprt to 0. 
 
