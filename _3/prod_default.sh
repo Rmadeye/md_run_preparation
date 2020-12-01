@@ -2,7 +2,7 @@ source ~/amber20_src/amber.sh
 
 filename=`basename ${PWD%/*}`;
 
-for i in {1..10}; do
+for i in {1..reps}; do
 
 echo 'Job number being done:' $i
 output="$filename"\_$i.nc
