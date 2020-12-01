@@ -36,7 +36,7 @@ def apply_residue_index_to_config_files(resi: int) -> int:
     with open('../MD_cfg/cpptraj_prepare_and_analyze.in', 'r') as file:
         cpan = file.read().replace('complex',str(resi)
                                    ).replace('ligandindex', str(resi)
-                                             ).replace('directoryname',outputdf_name)
+                                             ).replace('directoryname',outputdf_name).replace('protein', str(resi-1))
 
     with open('../MMGBSA/analyze.sh', 'w') as output_file:
         output_file.write(text)
