@@ -7,4 +7,4 @@ prot = loadpdb prot.pqr
 com = combine {prot, lig}
 solvateOct com TIP3PBOX 12.0
 addions com Na+ 0
-saveamberparm com lig-prot-solv.parm7 lig-prot-solv.rst7
+saveamberparm com ./parms/lig-prot-solv.parm7 ./rst7s/lig-prot-solv.rst7
