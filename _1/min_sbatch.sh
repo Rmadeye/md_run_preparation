@@ -1,5 +1,5 @@
 #!/bin/bash -l
-#SBATCH -J minimize
+#SBATCH -J minimer
 #SBATCH -N 1
 #SBATCH -n 8
 #SBATCH --time=1:00:00

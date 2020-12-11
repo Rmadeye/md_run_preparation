@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
 import shutil
+import os
+
+dirname = os.path.basename(os.path.abspath('..'))
+
 
 def find_ligand_residue_number(file: str) -> int:
     resn = ['UNL', 'UNK', 'LIG']
@@ -31,7 +35,7 @@ def set_ntwprt_number(file: str) -> int:
                 #         return int(max(atom_count))
 
 
-def apply_residue_index_to_config_files(resi: int) -> int:
+def apply_residue_index_to_config_files(resi: int) -> bool:
     outputdf_name = input("Set the name for results file: ")
     with open('../MMGBSA/default-input.sh', 'r') as file:
         print(f"Ligand residue index: {resi}")
@@ -56,7 +60,7 @@ def apply_residue_index_to_config_files(resi: int) -> int:
 
     with open('../MD_cfg/analyze_cpptraj.in', 'w') as output_cpptraj_input_instructions:
         output_cpptraj_input_instructions.write(cpan)
-
+    return True
 def apply_atom_count_to_md_inputs_and_production_length_and_reps(atom_count: int) -> int:
     time_of_simulation = int(input("Set simulation time in nanoseconds: "))*500000
     number_of_reps = int(input("How many times you want to repeat experiment? Answer: "))
@@ -75,6 +79,19 @@ def apply_atom_count_to_md_inputs_and_production_length_and_reps(atom_count: int
         except Exception as e:
             print(e)
 
+    with open('../_1/min_sbatch.sh', 'r') as min_sbatch:
+        try:
+            sbatch_min_name = min_sbatch.read().replace('minimer',
+                                                         str(dirname)+'_minim')
+        except Exception as e:
+            print(e)
+    with open('../_2/heat_sbatch.sh', 'r') as heat_sbatch:
+        try:
+            sbatch_heat_name = heat_sbatch.read().replace('heater',
+                                                         str(dirname)+'_heat')
+        except Exception as e:
+            print(e)
+
     with open('../_3/prod_default.sh', 'r') as prod_executable_sample:
         try:
             reps = prod_executable_sample.read().replace('reps',
@@ -84,12 +101,19 @@ def apply_atom_count_to_md_inputs_and_production_length_and_reps(atom_count: int
     with open('../_3/prod_sbatch_default.sh', 'r') as prod_executable_sample_sbatch:
         try:
             reps_sbatch = prod_executable_sample_sbatch.read().replace('reps',
-                                                         str(number_of_reps))
+                                                         str(number_of_reps)).replace('producer', str(
+                dirname)+'_production'
+            )
         except Exception as e:
             print(e)
-
+    with open('../_1/sbatch_min.sh', 'w') as min_batch:
+        min_batch.write(sbatch_min_name)
+        shutil.move('../_1/min_sbatch.sh', '../MD_cfg/')
     with open('../MD_cfg/heat.in', 'w') as heating_cfg:
         heating_cfg.write(heating)
+    with open('../_2/sbatch_heat.sh', 'w') as heating_batch:
+        heating_batch.write(sbatch_heat_name)
+        shutil.move('../_2/heat_sbatch.sh', '../MD_cfg/')
     with open('../MD_cfg/prod.in', 'w') as production_cfg:
         production_cfg.write(production)
     with open('../_3/prod.sh', 'w') as prod_executable:
@@ -97,7 +121,7 @@ def apply_atom_count_to_md_inputs_and_production_length_and_reps(atom_count: int
         shutil.move('../_3/prod_default.sh', '../MD_cfg/')
     with open('../_3/prod_sbatch.sh', 'w') as prod_executable_sbatch:
         prod_executable_sbatch.write(reps_sbatch)
-        # shutil.move('../_3/prod_sbatch_default.sh', '../MD_cfg/')
+        shutil.move('../_3/prod_sbatch_default.sh', '../MD_cfg/')
         
     return 0
 

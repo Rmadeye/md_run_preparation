@@ -1,6 +1,6 @@
 Input file for running PB and GB
 &general
-   interval = 10, keep_files=2,
+   interval = 10, keep_files=0,
 /
 &gb
   igb=8, saltcon = 0.15,

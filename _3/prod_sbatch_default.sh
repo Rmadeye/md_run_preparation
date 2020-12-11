@@ -1,5 +1,5 @@
 #!/bin/bash -l
-#SBATCH -J production
+#SBATCH -J producer
 #SBATCH -n 1
 #SBATCH --time=72:00:00
 #SBATCH -A plgmadeyemdgpu
