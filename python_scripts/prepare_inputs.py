@@ -6,7 +6,7 @@ dirname = os.path.basename(os.path.abspath('..'))
 
 
 def find_ligand_residue_number(file: str) -> int:
-    resn = ['UNL', 'UNK', 'LIG']
+    resn = ['UNL', 'UNK', 'LIG','MOL']
     # solv = ['WAT','Na+','Cl-']
     with open(file, "r") as ligfile:
         for line in ligfile:
@@ -20,7 +20,7 @@ def find_ligand_residue_number(file: str) -> int:
 
 def set_ntwprt_number(file: str) -> int:
     atom_count = []
-    resn = ['UNL', 'UNK', 'LIG']
+    resn = ['UNL', 'UNK', 'LIG','MOL']
     # solv = ['WAT','Na+','Cl-']
     with open(file, "r") as ligfile:
         for line in ligfile:

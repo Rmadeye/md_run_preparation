@@ -2,6 +2,8 @@
 #SBATCH -J producer
 #SBATCH -n 1
 #SBATCH --time=72:00:00
+#SBATCH --mail-type=ALL
+#SBATCH --mail-user=rmadaj@cbmm.lodz.pl
 #SBATCH -A plgmadeyemdgpu
 #SBATCH --partition=plgrid-gpu
 #SBATCH --gres=gpu:1

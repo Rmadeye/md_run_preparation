@@ -2,6 +2,8 @@
 #SBATCH -J minimer
 #SBATCH -N 1
 #SBATCH -n 8
+#SBATCH --mail-type=ALL
+#SBATCH --mail-user=rmadaj@cbmm.lodz.pl
 #SBATCH --time=1:00:00
 #SBATCH -A plgmadeyemd
 #SBATCH --partition=plgrid-short
