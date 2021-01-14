@@ -10,4 +10,4 @@
 
 module load plgrid/apps/amber/18
 
-cpptraj -i ../MD_cfg/check_2.in
+cpptraj -i ../MD_cfg/analyze_cpptraj.in
