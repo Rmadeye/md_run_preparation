@@ -98,14 +98,24 @@ def apply_atom_count_to_md_inputs_and_production_length_and_reps(atom_count: int
                                                          str(number_of_reps))
         except Exception as e:
             print(e)
-    with open('../_3/prod_sbatch_default.sh', 'r') as prod_executable_sample_sbatch:
-        try:
-            reps_sbatch = prod_executable_sample_sbatch.read().replace('reps',
-                                                         str(number_of_reps)).replace('producer', str(
-                dirname)+'_production'
-            )
-        except Exception as e:
-            print(e)
+
+    calculation_number_list = [x+1 for x in range(number_of_reps)]
+    sublist = [calculation_number_list[i:i+2] for i in range(0, number_of_reps, 2)]
+    prod_sbatch_list = []
+    try:
+        for elem in sublist:
+            with open('../_3/prod_sbatch_default.sh', 'r') as prod_executable_sample_sbatch:
+
+                reps_sbatch = prod_executable_sample_sbatch.read().replace('reps',f'{elem[0]}..{elem[-1]}'
+                                                             ).replace('producer', str(
+                    dirname)+'_production'
+                )
+                prod_sbatch_list.append(reps_sbatch)
+    except Exception as e:
+        print(e)
+
+
+
     with open('../_1/sbatch_min.sh', 'w') as min_batch:
         min_batch.write(sbatch_min_name)
         shutil.move('../_1/min_sbatch.sh', '../MD_cfg/')
@@ -119,9 +129,10 @@ def apply_atom_count_to_md_inputs_and_production_length_and_reps(atom_count: int
     with open('../_3/prod.sh', 'w') as prod_executable:
         prod_executable.write(reps)
         shutil.move('../_3/prod_default.sh', '../MD_cfg/')
-    with open('../_3/prod_sbatch.sh', 'w') as prod_executable_sbatch:
-        prod_executable_sbatch.write(reps_sbatch)
-        shutil.move('../_3/prod_sbatch_default.sh', '../MD_cfg/')
+    for index, command in enumerate(prod_sbatch_list):
+        with open(f'../_3/prod_sbatch_{index+1}.sh', 'w') as prod_executable_sbatch:
+            prod_executable_sbatch.write(command)
+    shutil.move('../_3/prod_sbatch_default.sh', '../MD_cfg/')
         
     return 0
 

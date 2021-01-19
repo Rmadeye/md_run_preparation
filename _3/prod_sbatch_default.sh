@@ -4,7 +4,7 @@
 #SBATCH --time=72:00:00
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=rmadaj@cbmm.lodz.pl
-#SBATCH -A plgmadeyemdgpu
+#SBATCH -A plgnovigpu
 #SBATCH --partition=plgrid-gpu
 #SBATCH --gres=gpu:1
 
@@ -12,11 +12,19 @@ module load plgrid/apps/amber/18
 
 filename=`basename ${PWD%/*}`;
 
-for i in {1..reps}; do
+cp ../parms/lig-prot-solv.parm7 ../rst7s/lig-prot-solv_heat.rst7 ../MD_cfg/prod.in $SCRATCHDIR
+
+cd $SCRATCHDIR
+
+for i in {reps}; do
 
 echo 'Job number being done:' $i
 output="$filename"\_$i.nc
 
-pmemd.cuda -O -i ../MD_cfg/prod.in -o prod.out -p ../parms/lig-prot-solv.parm7 -c ../rst7s/lig-prot-solv_heat.rst7 -r ../rst7s/lig-prot-solv_"$i".rst7 -inf info.inf -x "$output"
+pmemd.cuda -O -i prod.in -o prod_"$i".out -p lig-prot-solv.parm7 -c lig-prot-solv_heat.rst7 -r lig-prot-solv_"$i".rst7 -inf info.inf -x "$output"
 
 done
+
+cp *.nc ${SLURM_SUBMIT_DIR}
+cp prod.out ${SLURM_SUBMIT_DIR}
+cp *.rst7 ${SLURM_SUBMIT_DIR}/../rst7s
