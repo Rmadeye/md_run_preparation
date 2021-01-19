@@ -4,7 +4,7 @@
 #SBATCH --time=72:00:00
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=rmadaj@cbmm.lodz.pl
-#SBATCH -A plgmadeyemdgpu
+#SBATCH -A plgnovigpu
 #SBATCH --partition=plgrid-gpu
 #SBATCH --gres=gpu:1
 
