@@ -5,14 +5,14 @@ import os
 dirname = os.path.basename(os.path.abspath('..'))
 
 
-def find_ligand_residue_number(file: str) -> int:
+def find_ligand_residue_number(file: str) -> tuple:
     resn = ['UNL', 'UNK', 'LIG','MOL']
     # solv = ['WAT','Na+','Cl-']
     with open(file, "r") as ligfile:
         for line in ligfile:
             line = line.split()
             if line[3] in resn:
-                return int(line[4])
+                return int(line[4]), line[3]
      #       else:
       #          if line[3] in solv:
        #             return int(line[4]) - 1
@@ -27,6 +27,7 @@ def set_ntwprt_number(file: str) -> int:
             line = line.split()
             if line[0] == "ATOM":
                 if line[3] in resn:
+
                     atom_count.append(line[1])
     return int(max(atom_count))
                 # else:
@@ -35,7 +36,7 @@ def set_ntwprt_number(file: str) -> int:
                 #         return int(max(atom_count))
 
 
-def apply_residue_index_to_config_files(resi: int) -> bool:
+def apply_residue_index_to_config_files(resi: int, ligname: str) -> bool:
     outputdf_name = input("Set the name for results file: ")
     with open('../MMGBSA/default-input.sh', 'r') as file:
         print(f"Ligand residue index: {resi}")
@@ -51,13 +52,18 @@ def apply_residue_index_to_config_files(resi: int) -> bool:
         cpan = file.read().replace('complex',str(resi)
                                    ).replace('ligandindex', str(resi)
                                              ).replace('directoryname',outputdf_name).replace('protein', str(resi-1))
+    with open('../MD_cfg/cpptraj_cluster_default.txt', 'r') as file:
+        cpclu = file.read().replace('protein',str(resi)
+                                   ).replace('ligandindex', str(resi-1)
+                                             ).replace('LIGNAME', ligname)
 
     with open('../MMGBSA/analyze.sh', 'w') as output_file:
         output_file.write(text)
 
     with open('../MD_cfg/check_2.in', 'w') as output_cpptrajcheck:
         output_cpptrajcheck.write(cpin)
-
+    with open('../MD_cfg/cpptraj_cluster.txt', 'w') as cluster_cfg:
+        cluster_cfg.write(cpclu)
     with open('../MD_cfg/analyze_cpptraj.in', 'w') as output_cpptraj_input_instructions:
         output_cpptraj_input_instructions.write(cpan)
     return True
@@ -137,5 +143,6 @@ def apply_atom_count_to_md_inputs_and_production_length_and_reps(atom_count: int
     return 0
 
 if __name__ == '__main__':
-    apply_residue_index_to_config_files(find_ligand_residue_number('../_1/integrity_check.pdb'))
+    residue_number, ligname = find_ligand_residue_number('../_1/integrity_check.pdb')
+    apply_residue_index_to_config_files(residue_number, ligname)
     apply_atom_count_to_md_inputs_and_production_length_and_reps(set_ntwprt_number('../_1/integrity_check.pdb'))
