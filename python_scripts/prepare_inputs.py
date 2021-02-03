@@ -100,7 +100,7 @@ def apply_atom_count_to_md_inputs_and_production_length_and_reps(atom_count: int
             print(e)
 
     calculation_number_list = [x+1 for x in range(number_of_reps)]
-    sublist = [calculation_number_list[i:i+2] for i in range(0, number_of_reps, 2)]
+    sublist = [calculation_number_list[i:i+1] for i in range(0, number_of_reps, 1)]
     prod_sbatch_list = []
     try:
         for elem in sublist:

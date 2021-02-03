@@ -1,6 +1,7 @@
 source leaprc.gaff
 source leaprc.protein.ff14SB
 source leaprc.water.tip3p
+source leaprc.DNA.OL15
 lig = loadmol2 lig.mol2
 loadamberparams lig.frcmod
 prot = loadpdb prot.pqr
