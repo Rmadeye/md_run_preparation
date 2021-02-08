@@ -136,6 +136,38 @@ def apply_atom_count_to_md_inputs_and_production_length_and_reps(atom_count: int
         
     return 0
 
+def configure_user_inputs(ligand_number: int) -> int:
+    restraint_decision = input("Do you want to put a restraint on certain residue or ligand during minimisation? y/n :")
+    if restraint_decision.lower() == 'y':
+        mask = input(f"Enter the residue numbers (for example 3-66). Your ligand residue number is {ligand_number}:\n")
+        force = input("Enter the force constant: ")
+        with open('../MD_cfg/min_default.in', 'r') as min_default_input:
+            try:
+                min_in = min_default_input.read().replace(
+                    'restraintclause','restraintmask'
+                ).replace('mask_index',str(mask)
+                          ).replace(
+                    'restraintforce','restraint_wt').replace('forcenumber',str(force))
+            except Exception as e:
+                print(e)
+    else:
+        with open('../MD_cfg/min_default.in', 'r') as min_default_input:
+            try:
+                min_in = min_default_input.read().replace('restraintclause=":mask",restraintforce=forcenumber,','')
+            except Exception as e:
+                print(e)
+                
+    with open('../MD_cfg/min.in', 'w') as min_output:
+        min_output.write(min_in)
+
+    return 0
+
+
+
+
+
+
 if __name__ == '__main__':
     apply_residue_index_to_config_files(find_ligand_residue_number('../_1/integrity_check.pdb'))
     apply_atom_count_to_md_inputs_and_production_length_and_reps(set_ntwprt_number('../_1/integrity_check.pdb'))
+    configure_user_inputs(find_ligand_residue_number('../_1/integrity_check.pdb'))

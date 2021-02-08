@@ -5,5 +5,6 @@
  ntb=1, ntp=0,
  ntpr=100,cut=9.0,
  maxcyc=20000, ncyc=10000,
+ restraintclause=":mask_index",restraintforce=forcenumber,
 /
 
