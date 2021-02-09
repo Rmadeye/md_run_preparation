@@ -5,6 +5,7 @@ import os
 dirname = os.path.basename(os.path.abspath('..'))
 
 
+
 def find_ligand_residue_number(file: str) -> int:
     resn = ['UNL', 'UNK', 'LIG','MOL']
     # solv = ['WAT','Na+','Cl-']
@@ -40,7 +41,11 @@ def apply_residue_index_to_config_files(resi: int) -> bool:
     with open('../MMGBSA/default-input.sh', 'r') as file:
         print(f"Ligand residue index: {resi}")
         try:
-            text = file.read().replace('protein',str(resi-1)).replace('complex',str(resi))
+            text = file.read().replace(
+                'protein',str(resi-1)
+            ).replace(
+                'complex',str(resi)
+            ).replace('MMGBSA-inputname',f"MMGBSA-{outputdf_name}")
         except:
             print("No inputs modified")
 
@@ -51,9 +56,17 @@ def apply_residue_index_to_config_files(resi: int) -> bool:
         cpan = file.read().replace('complex',str(resi)
                                    ).replace('ligandindex', str(resi)
                                              ).replace('directoryname',outputdf_name).replace('protein', str(resi-1))
+    with open('../MD_cfg/cpptraj_cluster.txt', 'r') as clusterin:
+        try:
+            cluster_cfg = clusterin.read().replace('ligandindex',str(resi-1))
+        except Exception as e:
+            print(e)
 
     with open('../MMGBSA/analyze.sh', 'w') as output_file:
         output_file.write(text)
+
+    with open('../MD_cfg/cluster_cpptraj.in', 'w') as cluster_output:
+        cluster_output.write(cluster_cfg)
 
     with open('../MD_cfg/check_2.in', 'w') as output_cpptrajcheck:
         output_cpptrajcheck.write(cpin)
@@ -168,6 +181,6 @@ def configure_user_inputs(ligand_number: int) -> int:
 
 
 if __name__ == '__main__':
-    apply_residue_index_to_config_files(find_ligand_residue_number('../_1/integrity_check.pdb'))
-    apply_atom_count_to_md_inputs_and_production_length_and_reps(set_ntwprt_number('../_1/integrity_check.pdb'))
-    configure_user_inputs(find_ligand_residue_number('../_1/integrity_check.pdb'))
+    apply_residue_index_to_config_files(find_ligand_residue_number('../_0/input_complex.pdb'))
+    apply_atom_count_to_md_inputs_and_production_length_and_reps(set_ntwprt_number('../_0/input_complex.pdb'))
+    configure_user_inputs(find_ligand_residue_number('../_0/input_complex.pdb'))

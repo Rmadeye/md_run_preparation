@@ -3,7 +3,7 @@
 #SBATCH -N 1
 #SBATCH -n 1
 #SBATCH --time=1:00:00
-#SBATCH -A plgnovi
+#SBATCH -A grantid
 #SBATCH --partition=plgrid-short
 
 module load plgrid/apps/amber/18

@@ -1,11 +1,11 @@
 #!/bin/bash -l
-#SBATCH -J MMGBSA-azo
+#SBATCH -J MMGBSA-inputname
 #SBATCH -N 1
 #SBATCH -n 8
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=rmadaj@cbmm.lodz.pl
 #SBATCH --time=24:00:00
-#SBATCH -A plgnovi
+#SBATCH -A grantid
 #SBATCH --partition=plgrid
 module load plgrid/apps/amber/18
 

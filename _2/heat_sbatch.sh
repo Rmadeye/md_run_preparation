@@ -5,7 +5,7 @@
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=rmadaj@cbmm.lodz.pl
 #SBATCH --time=1:00:00
-#SBATCH -A plgnovi
+#SBATCH -A grantid
 #SBATCH --partition=plgrid-short
 
 module load plgrid/apps/amber/18
