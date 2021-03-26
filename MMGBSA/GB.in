@@ -3,7 +3,7 @@ Input file for running PB and GB
    interval = 10, keep_files=0,
 /
 &gb
-  igb=8, saltcon = 0.15,
+  igb=5, saltcon = 0.15,
 /
 &decomp
 idecomp=4,
