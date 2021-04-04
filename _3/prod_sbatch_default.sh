@@ -21,7 +21,7 @@ for i in {reps}; do
 echo 'Job number being done:' $i
 output="$filename"\_$i.nc
 
-pmemd.cuda -O -i prod.in -o prod_"$i".out -p lig-prot-solv.parm7 -c lig-prot-solv_heat.rst7 -r lig-prot-solv_"$i".rst7 -inf info.inf -x "$output" || echo "_heat not found, using tleap input instead" && pmemd.cuda -O -i prod.in -o prod_"$i".out -p lig-prot-solv.parm7 -c lig-prot-solv.rst7 -r lig-prot-solv_"$i".rst7 -inf info.inf -x "$output"
+pmemd.cuda -O -i prod.in -o prod_"$i".out -p lig-prot-solv.parm7 -c lig-prot-solv_heat.rst7 -r lig-prot-solv_"$i".rst7 -inf info.inf -x "$output"
 
 done
 
