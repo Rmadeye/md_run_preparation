@@ -1,7 +1,7 @@
 #!/bin/bash -l
 #SBATCH -J heater
 #SBATCH -N 1
-#SBATCH -n 8 
+#SBATCH -n nodesnumber_short
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=rmadaj@cbmm.lodz.pl
 #SBATCH --time=1:00:00
@@ -14,7 +14,7 @@ cp ../parms/lig-prot-solv.parm7 ../rst7s/lig-prot-solv_min.rst7 ../MD_cfg/heat.i
 
 cd $SCRATCHDIR
 
-mpirun -np 8 pmemd.MPI -O -i heat.in -o heat.out -p lig-prot-solv.parm7 -c lig-prot-solv_min.rst7 -r lig-prot-solv_heat.rst7 -inf info.inf -ref lig-prot-solv_min.rst7
+mpirun -np nodesnumber_short pmemd.MPI -O -i heat.in -o heat.out -p lig-prot-solv.parm7 -c lig-prot-solv_min.rst7 -r lig-prot-solv_heat.rst7 -inf info.inf -ref lig-prot-solv_min.rst7
 
 cp heat.out ${SLURM_SUBMIT_DIR}
 cp lig-prot-solv_heat.rst7 ${SLURM_SUBMIT_DIR}/../rst7s/

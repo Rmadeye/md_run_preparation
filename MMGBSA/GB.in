@@ -1,9 +1,9 @@
 Input file for running PB and GB
 &general
-   interval = 10, keep_files=0,
+   interval = intervalset, keep_files=0,
 /
 &gb
-  igb=5, saltcon = 0.15,
+  igb=igbset, saltcon = 0.15,
 /
 &decomp
 idecomp=4,

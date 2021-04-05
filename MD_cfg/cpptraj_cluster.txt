@@ -1,6 +1,6 @@
-parm ../parms/stripped.lig-prot-solv.parm7
-trajin ../postprocessing/.nc
+parm stripped.lig-prot-solv.parm7
+trajin *.nc
 rms first 1-ligandindex@C,CA,O,N
-cluster C0 out cnumvtime.dat summary summary.dat info info.dat rms :UNL nofit clusters 5 clusterout cluster clusterfmt netcdf repout representative repfmt pdb
+cluster C0 out cnumvtime.dat summary summary.dat info info.dat rms :UNL nofit clusters 5 clusterout cluster clusterfmt netcdf repout clusteroutname repfmt pdb
 run
 exit
