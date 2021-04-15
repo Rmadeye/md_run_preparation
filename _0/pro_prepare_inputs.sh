@@ -11,9 +11,18 @@ read -p 'Set number of cores for plgrid-short : ' ncpus_short
 find .. -name "*.sh" -exec sed -i "s/nodesnumber_short/$ncpus_short/g" {} \;
 echo $ncpus_short set as number of cores for plgrid-short partition
 
+
 python3 ../python_scripts/prepare_inputs.py
 ante-MMPBSA.py -p ../parms/lig-prot-solv.parm7 -c ../parms/stripped.lig-prot-solv.parm7 -s ':WAT,:Na+,:Cl-'
-
+read -p 'Set production time to be analyzed (ns) : ' prodtime
+find .. -name "*.py" -exec sed -i "s/productiontime/$prodtime/g" {} \;
+echo $prodtime set as time for basic analysis
+read -p 'Set number of residues for RMSF analysis : ' rmsfresidues
+find .. -name "*.py" -exec sed -i "s/productiontime/$rmsfresidues/g" {} \;
+echo $rmsfresidues set as number of residues for RMSF study
+read -p 'Set residue/ligand name for cluster analysis : ' clusname
+find .. -name "*.in" -exec sed -i "s/clusname/$clusname/g" {} \;
+echo $clusname set as cluster analysis reference
 echo "***Set MM/GB(PB)SA calculations***"
 read -p 'Set igb for MMGB(PB)SA:  (8 for anything but phosphates)' igb
 find .. -name "*.in" -exec sed -i "s/igbset/$igb/g" {} \;

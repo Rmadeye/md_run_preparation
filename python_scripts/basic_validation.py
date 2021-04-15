@@ -2,8 +2,8 @@ import pandas as pd
 import seaborn as sns
 import argparse
 
-timeline = pd.DataFrame([x for x in range(0,25000)])
-residues = pd.DataFrame([x for x in range(0,543)])
+timeline = pd.DataFrame([x for x in range(0,int(productiontime*100))]) # adjusted by bash
+residues = pd.DataFrame([x for x in range(0,int(rmsfresidues))]) # adjusted by bash
 
 
 def plot_validation(result_csv: str) -> bool:
@@ -17,7 +17,7 @@ def plot_validation(result_csv: str) -> bool:
     plot_rog = sns.lineplot(x='Time', y="radius", data=df)
     plot_rog.set_xlabel("Time [ns]")
     plot_rog.set_ylabel("Radius of gyration [A]")
-    plot_rog.set(ylim=(15,40))
+    plot_rog.set(ylim=(20,40))
     fig = plot_rog.get_figure()
     fig.savefig(f"{result_csv}_rog.png")
     fig.clf()
