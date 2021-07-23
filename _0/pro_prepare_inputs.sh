@@ -10,6 +10,9 @@ echo $grantnamegpu set as default GPU grant
 read -p 'Set number of cores for plgrid-short : ' ncpus_short
 find .. -name "*.sh" -exec sed -i "s/nodesnumber_short/$ncpus_short/g" {} \;
 echo $ncpus_short set as number of cores for plgrid-short partition
+read -p 'Set name of the ligand unless standard (UNL, MOL, UNK) : ' ligname
+find .. -name "*.py" -exec sed -i "s/DEF/$ligname/g" {} \;
+echo $ligname set as ligand name
 
 
 python3 ../python_scripts/prepare_inputs.py

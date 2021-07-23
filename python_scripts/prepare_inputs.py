@@ -6,7 +6,7 @@ dirname = os.path.basename(os.path.abspath('..'))
 
 
 def find_ligand_residue_number(file: str) -> int:
-    resn = ['UNL', 'UNK', 'LIG', 'MOL']
+    resn = ['UNL', 'UNK', 'LIG', 'MOL','DEF']
     # solv = ['WAT','Na+','Cl-']
     with open(file, "r") as ligfile:
         for line in ligfile:
@@ -65,7 +65,7 @@ def apply_residue_index_to_config_files(resi: int) -> bool:
         cpan = file.read().replace('complex', str(resi)
                                    ).replace('ligandindex', str(resi)
                                              ).replace('directoryname', outputdf_name).replace('protein', str(resi - 1))
-    with open('../MD_cfg/cpptraj_cluster.txt', 'r') as clusterin:
+    with open('../MD_cfg/cpptraj_cluster.in', 'r') as clusterin:
         try:
             cluster_cfg = clusterin.read().replace('ligandindex', str(resi - 1)).replace('clusteroutname',
                                                                                          outputdf_name)
