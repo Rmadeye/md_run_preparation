@@ -8,7 +8,7 @@
 #SBATCH --partition=plgrid-gpu
 #SBATCH --gres=gpu:1
 
-module load plgrid/apps/amber/18
+module load plgrid/apps/amber/20
 
 filename=`basename ${PWD%/*}`;
 

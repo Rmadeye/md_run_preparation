@@ -8,7 +8,7 @@
 #SBATCH -A grantid
 #SBATCH --partition=plgrid
 
-module load plgrid/apps/amber/18
+module load plgrid/apps/amber/20
 
 filename=`basename ${PWD%/*}`;
 

@@ -6,7 +6,7 @@
 #SBATCH -A grantid
 #SBATCH --partition=plgrid-short
 
-module load plgrid/apps/amber/18
+module load plgrid/apps/amber/20
 
 cpptraj -i ../MD_cfg/analyze_cpptraj.in
 

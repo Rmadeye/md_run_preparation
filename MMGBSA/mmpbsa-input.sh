@@ -7,7 +7,7 @@
 #SBATCH --time=24:00:00
 #SBATCH -A grantid
 #SBATCH --partition=plgrid
-module load plgrid/apps/amber/18
+module load plgrid/apps/amber/20
 
 cp ../parms/stripped.lig-prot-solv.parm7 ../postprocessing/merged_centered.nc PB.in $SCRATCHDIR
 

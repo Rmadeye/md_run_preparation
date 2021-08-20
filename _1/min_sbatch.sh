@@ -5,7 +5,7 @@
 #SBATCH --time=1:00:00
 #SBATCH -A grantid
 #SBATCH --partition=plgrid-short
-module load plgrid/apps/amber/18
+module load plgrid/apps/amber/20
 
 cp ../parms/lig-prot-solv.parm7 ../rst7s/lig-prot-solv.rst7 ../MD_cfg/min.in $SCRATCHDIR
 

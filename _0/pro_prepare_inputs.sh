@@ -1,5 +1,5 @@
 #!/usr/bin/bash
-module load plgrid/apps/amber/18 || source ~/amber20_src/amber.sh || source ~/amber20/amber.sh
+module load plgrid/apps/amber/20 || source ~/amber20_src/amber.sh || source ~/amber20/amber.sh
 ambpdb -p ../parms/lig-prot-solv.parm7 -c ../rst7s/lig-prot-solv.rst7 > input_complex.pdb
 read -p 'Set your grant name for CPU jobs: ' grantname
 find .. -name "*.sh" -exec sed -i "s/grantid/$grantname/g" {} \;
@@ -18,13 +18,13 @@ echo $ligname set as ligand name
 python3 ../python_scripts/prepare_inputs.py
 ante-MMPBSA.py -p ../parms/lig-prot-solv.parm7 -c ../parms/stripped.lig-prot-solv.parm7 -s ':WAT,:Na+,:Cl-'
 read -p 'Set production time to be analyzed (ns) : ' prodtime
-find .. -name "*.py" -exec sed -i "s/productiontime/$prodtime/g" {} \;
+find .. -name "*.*" -exec sed -i "s/productiontime/$prodtime/g" {} \;
 echo $prodtime set as time for basic analysis
 read -p 'Set number of residues for RMSF analysis : ' rmsfresidues
-find .. -name "*.py" -exec sed -i "s/productiontime/$rmsfresidues/g" {} \;
+find .. -name "*.py" -exec sed -i "s/rmsfresidues/$rmsfresidues/g" {} \;
 echo $rmsfresidues set as number of residues for RMSF study
 read -p 'Set residue/ligand name for cluster analysis : ' clusname
-find .. -name "*.in" -exec sed -i "s/clusname/$clusname/g" {} \;
+find .. -name "*.*" -exec sed -i "s/clusname/$clusname/g" {} \;
 echo $clusname set as cluster analysis reference
 echo "***Set MM/GB(PB)SA calculations***"
 read -p 'Set igb for MMGB(PB)SA:  (8 for anything but phosphates)' igb
