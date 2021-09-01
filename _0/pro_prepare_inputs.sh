@@ -17,9 +17,9 @@ echo $ligname set as ligand name
 
 python3 ../python_scripts/prepare_inputs.py
 ante-MMPBSA.py -p ../parms/lig-prot-solv.parm7 -c ../parms/stripped.lig-prot-solv.parm7 -s ':WAT,:Na+,:Cl-'
-read -p 'Set production time to be analyzed (ns) : ' prodtime
-find .. -name "*.*" -exec sed -i "s/productiontime/$prodtime/g" {} \;
-echo $prodtime set as time for basic analysis
+#read -p 'Set production time to be analyzed (ns) : ' prodtime
+#find .. -name "*.*" -exec sed -i "s/productiontime/$prodtime/g" {} \;
+#echo $prodtime set as time for basic analysis
 read -p 'Set number of residues for RMSF analysis : ' rmsfresidues
 find .. -name "*.py" -exec sed -i "s/rmsfresidues/$rmsfresidues/g" {} \;
 echo $rmsfresidues set as number of residues for RMSF study
@@ -35,6 +35,9 @@ read -p 'Set number of cpus used for MMGB(PB)SA calculations:  (Default 10)' ncp
 find .. -name "*.sh" -exec sed -i "s/mmgbsacpu/$ncpu_long/g" {} \;
 echo "MMGB(PB)SA features set: ncpus $ncpu_long, igb = $igb, interval = $interval"
 find .. -name "*.sh" -exec sed -i "s/cluster-name/`basename ${PWD%/*}`/g" {} \;
+find .. -name "mmgbsa_local.sh" -exec sed -i "s/inputname/`basename ${PWD%/*}`/g" {} \;
+
+
 
 
 

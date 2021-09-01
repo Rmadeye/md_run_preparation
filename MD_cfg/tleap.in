@@ -1,6 +1,6 @@
-source leaprc.gaff
+source leaprc.gaff2
 source leaprc.protein.ff19SB
-source leaprc.water.tip3p
+source leaprc.water.opc
 source leaprc.DNA.OL15
 lig = loadmol2 lig.mol2
 loadamberparams lig.frcmod

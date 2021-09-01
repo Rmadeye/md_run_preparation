@@ -44,13 +44,25 @@ def apply_residue_index_to_config_files(resi: int) -> bool:
                 'protein', str(resi - 1)
             ).replace(
                 'complex', str(resi)
-            ).replace('MMGBSA-inputname', f"MMGBSA-{outputdf_name}")
+            ).replace('MMGBSA-inputname', f"MMGBSA-{outputdf_name}"
+            ).replace('inputname_GB', f"{outputdf_name}"
+            ).replace('inputname_decomposed',f"{outputdf_name}_decomposed")
         except:
             print("No inputs modified")
     with open('../MMGBSA/mmpbsa-input.sh', 'r') as file:
         print(f"Ligand residue index: {resi}")
         try:
             mmpbsatext = file.read().replace(
+                'protein', str(resi - 1)
+            ).replace(
+                'complex', str(resi)
+            ).replace('MMGBSA-inputname', f"MMGBSA-{outputdf_name}")
+        except:
+            print("No inputs modified")
+    with open('../MMGBSA/mmgbsa_local-input.sh', 'r') as file:
+        print(f"Ligand residue index: {resi}")
+        try:
+            mmgblocalsatext = file.read().replace(
                 'protein', str(resi - 1)
             ).replace(
                 'complex', str(resi)
@@ -78,6 +90,9 @@ def apply_residue_index_to_config_files(resi: int) -> bool:
     with open('../MMGBSA/mmpbsa.sh', 'w') as output_file:
         output_file.write(mmpbsatext)
         shutil.move('../MMGBSA/mmpbsa-input.sh', '../MD_cfg/')
+    with open('../MMGBSA/mmgbsa_local.sh', 'w') as output_file:
+        output_file.write(mmgblocalsatext)
+        shutil.move('../MMGBSA/mmgbsa_local-input.sh','../MD_cfg/')
 
     with open('../MD_cfg/cluster_cpptraj.in', 'w') as cluster_output:
         cluster_output.write(cluster_cfg)
