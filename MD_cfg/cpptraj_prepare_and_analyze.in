@@ -1,4 +1,4 @@
-parm ../parms/stripped.lig-prot-solv.parm7
+parm ../parms/stripped.topology.parm7
 trajin ../_3/*.nc 1000
 autoimage
 average ../postprocessing/average.pdb

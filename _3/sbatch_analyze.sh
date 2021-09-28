@@ -8,7 +8,7 @@
 
 module load plgrid/apps/amber/20
 
-cpptraj -i ../MD_cfg/analyze_cpptraj.in
+cpptraj -i ../MD_cfg/cpptraj_prepare_and_analyze.in
 
 module load plgrid/tools/python/3.8
 

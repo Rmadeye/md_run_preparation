@@ -10,14 +10,14 @@
 
 module load plgrid/apps/amber/20
 
-cp ../parms/lig-prot-solv.parm7 ../rst7s/lig-prot-solv_min.rst7 ../MD_cfg/heat.in $SCRATCHDIR
+cp ../parms/topology.parm7 ../rst7s/coordinates_min.rst7 ../MD_cfg/heat.in $SCRATCHDIR
 
 cd $SCRATCHDIR
 
-mpirun -np nodesnumber_short pmemd.MPI -O -i heat.in -o heat.out -p lig-prot-solv.parm7 -c lig-prot-solv_min.rst7 -r lig-prot-solv_heat.rst7 -inf info.inf -ref lig-prot-solv_min.rst7
+mpirun -np nodesnumber_short pmemd.MPI -O -i heat.in -o heat.out -p topology.parm7 -c coordinates_min.rst7 -r coordinates_heat.rst7 -inf info.inf -ref coordinates_min.rst7
 
 cp heat.out ${SLURM_SUBMIT_DIR}
-cp lig-prot-solv_heat.rst7 ${SLURM_SUBMIT_DIR}/../rst7s/
+cp coordinates_heat.rst7 ${SLURM_SUBMIT_DIR}/../rst7s/
 cp mdcrd ${SLURM_SUBMIT_DIR}
 cd ${SLURM_SUBMIT_DIR}
 cpptraj -i ../MD_cfg/check_2.in

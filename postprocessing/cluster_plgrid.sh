@@ -12,10 +12,10 @@ module load plgrid/apps/amber/20
 
 filename=`basename ${PWD%/*}`;
 
-cp ../parms/stripped.lig-prot-solv.parm7 merged_centered.nc ../MD_cfg/cluster_cpptraj.in $SCRATCHDIR
+cp ../parms/stripped.topology.parm7 merged_centered.nc ../MD_cfg/cpptraj_cluster.in $SCRATCHDIR
 
 cd $SCRATCHDIR
-mpirun -np 16 cpptraj.MPI -i cluster_cpptraj.in
+mpirun -np 16 cpptraj.MPI -i cpptraj_cluster.in
 
 cp *.c* ${SLURM_SUBMIT_DIR}
 cp summary.dat ${SLURM_SUBMIT_DIR}

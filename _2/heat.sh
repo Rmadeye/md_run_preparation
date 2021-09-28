@@ -2,6 +2,6 @@
 
 source ~/amber20/amber.sh
 
-pmemd.cuda -O -i ../MD_cfg/heat.in -o heat.out -p ../parms/lig-prot-solv.parm7 -c ../rst7s/lig-prot-solv_min.rst7 -r ../rst7s/lig-prot-solv_heat.rst7 -inf info.inf -ref ../rst7s/lig-prot-solv_min.rst7
+pmemd.cuda -O -i ../MD_cfg/heat.in -o heat.out -p ../parms/topology.parm7 -c ../rst7s/coordinates_min.rst7 -r ../rst7s/coordinates_heat.rst7 -inf info.inf -ref ../rst7s/coordinates_min.rst7
 
 cpptraj -i ../MD_cfg/check_2.in
