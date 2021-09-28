@@ -1,0 +1,15 @@
+&cntrl
+imin=0,
+ntx=1, irest=0,ntwprt=atoms_written_to_trajectory,
+ntb=2, ntp=1, barostat=2,
+cut=9.0,
+ntc=2,
+ntf=2,
+ntt=3, temp0=300.0, tempi=300.0,
+gamma_ln=2.0,
+nstlim=time_of_simulation, dt=0.002,
+iwrap=1, ioutfm=1,
+ntpr=5000, ntwx=5000,ntwr=5000,
+ntr=0, nmropt=0,
+ig=-1
+/

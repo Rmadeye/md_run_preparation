@@ -16,14 +16,9 @@ cp ../parms/lig-prot-solv.parm7 ../rst7s/lig-prot-solv_heat.rst7 ../rst7s/lig-pr
 
 cd $SCRATCHDIR
 
-for i in {reps}; do
+output="$filename"\_index.nc
 
-echo 'Job number being done:' $i
-output="$filename"\_$i.nc
-
-pmemd.cuda -O -i prod.in -o prod_"$i".out -p lig-prot-solv.parm7 -c lig-prot-solv_heat.rst7 -r lig-prot-solv_"$i".rst7 -inf info.inf -x "$output"
-
-done
+pmemd.cuda -O -i prod.in -o prod_"index".out -p lig-prot-solv.parm7 -c lig-prot-solv_heat.rst7 -r lig-prot-solv_"index".rst7 -inf info.inf -x "$output"
 
 cp *.nc ${SLURM_SUBMIT_DIR}
 cp prod.out ${SLURM_SUBMIT_DIR}
