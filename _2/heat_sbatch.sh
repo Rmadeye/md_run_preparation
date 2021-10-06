@@ -2,11 +2,9 @@
 #SBATCH -J heater
 #SBATCH -N 1
 #SBATCH -n nodesnumber_short
-#SBATCH --mail-type=ALL
-#SBATCH --mail-user=rmadaj@cbmm.lodz.pl
 #SBATCH --time=1:00:00
 #SBATCH -A grantid
-#SBATCH --partition=plgrid-short
+#SBATCH --partition=
 
 module load plgrid/apps/amber/20
 

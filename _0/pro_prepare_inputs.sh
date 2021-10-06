@@ -16,6 +16,12 @@ fi
 
 
 source ~/amber20/amber.sh || source ~/amber20_src/amber.sh
+
+
+read -p 'Is ligand present? y/n: ' ligand_presence
+
+if [ $ligand_presence = 'y' ]; then
+
 read -p 'Set your grant name for CPU jobs: ' grantname
 find .. -name "*.sh" -exec sed -i "s/grantid/$grantname/g" {} \;
 echo $grantname set as default CPU grant
@@ -26,9 +32,6 @@ read -p 'Set number of cores for MM/GB(PB)SA : ' ncpus_short
 find .. -name "*.sh" -exec sed -i "s/nodesnumber_short/$ncpus_short/g" {} \;
 echo "$ncpus_short set as number of cores for MM/GB(PB)SA"
 
-read -p 'Is ligand present? y/n: ' ligand_presence
-
-if [ $ligand_presence = 'y' ]; then
 tleap -f ../MD_cfg/tleap.in
 ambpdb -p ../parms/topology.parm7 -c ../rst7s/coordinates.rst7 > input_complex.pdb
 # read -p 'Set name of the ligand abbrv (UNL, MOL, UNK) : ' ligname
@@ -67,9 +70,12 @@ echo "Set of changes for input files"
 read -p "Set minimisation steps (default 20000): " min_steps
 # read -p "Set heating steps (default 50000): " hit_steps
 read -p "Set production simulation length in ns: " prod_length
+read -p "Set equilibration period truncated from production simulations in ns:  " equilperiodraw
+equilperiod=$(($equilperiodraw*100))
 conj_grad=$(($min_steps/2))
 # nstlim_istep2=(($hit_length*500000))
 nstlim_prod=$(($prod_length*500000))
+sed -i "s/equilperiod/$equilperiod/g" ../MD_cfg/cpptraj_prepare_and_analyze.in
 sed -i "s/minsteps/$min_steps/g" ../MD_cfg/min.in
 sed -i "s/maxcycby2/$conj_grad/g" ../MD_cfg/min.in
 sed -i "s/atoms_written_to_trajectory/$atom_count/g" ../MD_cfg/heat.in
@@ -94,6 +100,13 @@ ante-MMPBSA.py -p ../parms/topology.parm7 -c ../parms/stripped.topology.parm7 -s
 echo "**Preparation finished**"
 
 elif [ $ligand_presence = 'n' ]; then
+
+read -p 'Set your grant name for CPU jobs: ' grantname
+find .. -name "*.sh" -exec sed -i "s/grantid/$grantname/g" {} \;
+echo $grantname set as default CPU grant
+read -p 'Set your grant name for GPU jobs: ' grantnamegpu
+find .. -name "*.sh" -exec sed -i "s/grantidgpu/$grantnamegpu/g" {} \;
+echo $grantnamegpu set as default GPU grant
 
 sed -i "s/lig = loadmol2 lig.mol2//g" ../MD_cfg/tleap.in
 sed -i "s/loadamberparams lig.frcmod//g" ../MD_cfg/tleap.in

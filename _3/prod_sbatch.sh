@@ -3,9 +3,9 @@
 #SBATCH -n 1
 #SBATCH --time=72:00:00
 #SBATCH --mail-type=ALL
-#SBATCH --mail-user=rmadaj@cbmm.lodz.pl
+#SBATCH --mail-user=
 #SBATCH -A grantidgpu
-#SBATCH --partition=plgrid-gpu
+#SBATCH --partition=
 #SBATCH --gres=gpu:1
 
 module load plgrid/apps/amber/20

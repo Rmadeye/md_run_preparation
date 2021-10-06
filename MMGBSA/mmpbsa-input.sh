@@ -3,10 +3,10 @@
 #SBATCH -N 1
 #SBATCH -n mmgbsacpu
 #SBATCH --mail-type=ALL
-#SBATCH --mail-user=rmadaj@cbmm.lodz.pl
+#SBATCH --mail-user=
 #SBATCH --time=24:00:00
 #SBATCH -A grantid
-#SBATCH --partition=plgrid
+#SBATCH --partition=
 module load plgrid/apps/amber/20
 
 cp ../parms/stripped.topology.parm7 ../postprocessing/merged_centered.nc PB.in $SCRATCHDIR

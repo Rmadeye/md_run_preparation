@@ -4,7 +4,7 @@
 #SBATCH -n 1
 #SBATCH --time=1:00:00
 #SBATCH -A grantid
-#SBATCH --partition=plgrid-short
+#SBATCH --partition=
 
 module load plgrid/apps/amber/20
 

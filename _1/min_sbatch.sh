@@ -4,7 +4,7 @@
 #SBATCH -n nodesnumber_short
 #SBATCH --time=1:00:00
 #SBATCH -A grantid
-#SBATCH --partition=plgrid-short
+#SBATCH --partition=
 module load plgrid/apps/amber/20
 
 cp ../parms/topology.parm7 ../rst7s/coordinates.rst7 ../MD_cfg/min.in $SCRATCHDIR

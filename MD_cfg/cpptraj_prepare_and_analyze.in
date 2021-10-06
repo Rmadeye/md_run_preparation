@@ -1,5 +1,5 @@
 parm ../parms/stripped.topology.parm7
-trajin ../_3/*.nc 1000
+trajin ../_3/*.nc equilperiod
 autoimage
 average ../postprocessing/average.pdb
 trajout ../postprocessing/merged_centered.nc
