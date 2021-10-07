@@ -1,5 +1,5 @@
-parm ../parms/stripped.lig-prot-solv.parm7
-trajin ../_3/*.nc 1000
+parm ../parms/stripped.topology.parm7
+trajin ../_3/*.nc equilperiod
 autoimage
 average ../postprocessing/average.pdb
 trajout ../postprocessing/merged_centered.nc
@@ -7,9 +7,8 @@ run
 clear trajin
 trajin ../postprocessing/merged_centered.nc
 radgyr radius !(@H=) out directoryname.csv mass nomax
+rms distplot (:1-complex&!@H=) first out directoryname.csv
 reference ../postprocessing/minim.pdb [min]
-rms distplot (:1-complex&!@H=) ref [min] out directoryname.csv
-reference ../postprocessing/average.pdb [avg]
 atomicfluct rmsf out directoryname.csv !@H= byres bfactor
 rms ligand_rmsd :ligandindex&!:H= first out directoryname.csv
 rms C (:1-protein)&@C ref [min] out directoryname.csv

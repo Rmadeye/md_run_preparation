@@ -1,6 +1,6 @@
 Input file for running PB and GB
 &general
-   interval = 1, keep_files=0,
+   interval = intervalset, keep_files=0,
 &pb
 istrng=150,
 /

@@ -3,12 +3,12 @@
 #SBATCH -N 1
 #SBATCH -n 1
 #SBATCH --time=1:00:00
-#SBATCH -A plgnovi
-#SBATCH --partition=plgrid-short
+#SBATCH -A grantid
+#SBATCH --partition=
 
-module load plgrid/apps/amber/18
+module load plgrid/apps/amber/20
 
-cpptraj -i ../MD_cfg/analyze_cpptraj.in
+cpptraj -i ../MD_cfg/cpptraj_prepare_and_analyze.in
 
 module load plgrid/tools/python/3.8
 

@@ -1,6 +1,6 @@
 &cntrl
 imin=0,
-ntx=5, irest=1,ntwprt=atoms_written_to_trajectory,
+ntx=1, irest=0,ntwprt=atoms_written_to_trajectory,
 ntb=2, ntp=1, barostat=2,
 cut=9.0,
 ntc=2,

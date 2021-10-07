@@ -4,6 +4,6 @@
  ntc=1, ntf=1,
  ntb=1, ntp=0,
  ntpr=100,cut=9.0,
- maxcyc=20000, ncyc=10000,
+ maxcyc=minsteps, ncyc=maxcycby2,
 /
 
