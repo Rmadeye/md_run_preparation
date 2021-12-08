@@ -32,7 +32,7 @@ read -p 'Set number of cores for MM/GB(PB)SA : ' ncpus_short
 find .. -name "*.sh" -exec sed -i "s/nodesnumber_short/$ncpus_short/g" {} \;
 echo "$ncpus_short set as number of cores for MM/GB(PB)SA"
 
-tleap -f ../MD_cfg/tleap.in
+tleap -f ../MD_cfg/tleap.tleapin
 ambpdb -p ../parms/topology.parm7 -c ../rst7s/coordinates.rst7 > input_complex.pdb
 # read -p 'Set name of the ligand abbrv (UNL, MOL, UNK) : ' ligname
 ligname=$(cat lig.mol2 | awk '//{print $2}' | tail -n 1)
@@ -42,6 +42,7 @@ atom_count="$(grep -i $ligname input_complex.pdb | awk '//{print $2}' | tail -n 
 echo $ligname set as ligand name, $atom_count set as printed number of atoms
 echo "Preparing input files..."
 read -p "Set filename for results: " results_filename
+find . -name "*.sh" -exec sed -i "s/producer/$results_filename/g" {} \;
 echo "Preparing residue indexes in MM/GB(PB)SA and CPPTRAJ input files..."
 protein_residues_index=$(($ligand_index-1))
 
