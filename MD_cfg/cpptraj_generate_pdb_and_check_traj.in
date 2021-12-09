@@ -1,12 +1,12 @@
-parm ../parms/stripped.topology.parm7
-trajin ../_2/mdcrd
-trajout ../_2/checked_confirmed.nc
-run
-clear all
 parm ../parms/topology.parm7
 trajin ../rst7s/coordinates_min.rst7
 strip !(:1-complex)
 trajout ../postprocessing/minim.pdb
+run
+clear all
+parm ../parms/stripped.topology.parm7
+trajin ../_2/mdcrd
+trajout ../_2/checked_confirmed.nc
 run
 
 
