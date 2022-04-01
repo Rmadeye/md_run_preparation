@@ -29,7 +29,7 @@ ambpdb -p ../parms/topology.parm7 -c ../rst7s/coordinates.rst7 > input_complex.p
 ligname=$(cat lig.mol2 | awk '//{print $2}' | tail -n 1)
 #find .. -name "*.py" -exec sed -i "s/DEF/$ligname/g" {} \;
 ligand_index="$(grep -i $ligname input_complex.pdb | awk '//{print $5}' | uniq | head -n 1)"
-atom_count="$(grep -i $ligname input_complex.pdb | awk '//{print $2}' | tail -n 2 | head -n 1)"
+atom_count="$(grep -i $ligname input_complex.pdb | awk '//{print $2}' | tail -n 1)"
 echo $ligname set as ligand name, $atom_count set as printed number of atoms
 echo "Preparing input files..."
 read -p "Set filename for results: " results_filename

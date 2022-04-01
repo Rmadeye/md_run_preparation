@@ -1,21 +1,12 @@
-#!/bin/bash -l
-#SBATCH -J heater
-#SBATCH -N 1
-#SBATCH -n nodesnumber_short
-#SBATCH --time=1:00:00
-#SBATCH -A grantid
-#SBATCH --partition=plgrid
+#!/bin/bash
+#SBATCH -p gpu          # GPU partition
+#SBATCH -n 1            # 8 cores
+#SBATCH --gres=gpu:1    # 1 GPU 
+#SBATCH --mem=8GB      # 8 GB of RAM
+#SBATCH -J heating_rmadeye     # name of your job
 
-module load plgrid/apps/amber/20
+source /opt/apps/amber20/amber.sh
 
-cp ../parms/topology.parm7 ../rst7s/coordinates_min.rst7 ../MD_cfg/heat.in $SCRATCHDIR
+pmemd.cuda -O -i ../MD_cfg/heat.in -o heat.out -p ../parms/topology.parm7 -c ../rst7s/coordinates_min.rst7 -r ../rst7s/coordinates_heat.rst7 -inf info.inf -ref ../rst7s/coordinates_min.rst7
 
-cd $SCRATCHDIR
-
-mpirun -np nodesnumber_short pmemd.MPI -O -i heat.in -o heat.out -p topology.parm7 -c coordinates_min.rst7 -r coordinates_heat.rst7 -inf info.inf -ref coordinates_min.rst7
-
-cp heat.out ${SLURM_SUBMIT_DIR}
-cp coordinates_heat.rst7 ${SLURM_SUBMIT_DIR}/../rst7s/
-cp mdcrd ${SLURM_SUBMIT_DIR}
-cd ${SLURM_SUBMIT_DIR}
-cpptraj -i ../MD_cfg/check_2.in
+cpptraj -i ../MD_cfg/generate_minim_check_ntwprt.in

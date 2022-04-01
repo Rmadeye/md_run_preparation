@@ -1,23 +1,13 @@
-#!/bin/bash -l
-#SBATCH -J producer
-#SBATCH -n 1
-#SBATCH --time=72:00:00
-#SBATCH -A grantidgpu
-#SBATCH --partition=plgrid-gpu
-#SBATCH --gres=gpu:1
+#!/bin/bash
+#SBATCH -p gpu          # GPU partition
+#SBATCH -n 1            # 8 cores
+#SBATCH --gres=gpu:1    # 1 GPU 
+#SBATCH --mem=8GB      # 8 GB of RAM
+#SBATCH -J producer_rmadeye     # name of your job
 
-module load plgrid/apps/amber/20
+source /opt/apps/amber20/amber.sh
 
 filename=`basename ${PWD%/*}`;
-
-cp ../parms/topology.parm7 ../rst7s/coordinates_heat.rst7 ../rst7s/coordinates.rst7 ../MD_cfg/prod.in $SCRATCHDIR
-
-cd $SCRATCHDIR
-
 output="$filename"\_index.nc
 
-pmemd.cuda -O -i prod.in -o prod_"index".out -p topology.parm7 -c coordinates_heat.rst7 -r coordinates_"index".rst7 -inf info.inf -x "$output"
-
-cp *.nc ${SLURM_SUBMIT_DIR}
-cp prod.out ${SLURM_SUBMIT_DIR}
-cp *.rst7 ${SLURM_SUBMIT_DIR}/../rst7s
+pmemd.cuda -O -i ../MD_cfg/prod.in -o prod_"index".out -p ../parms/topology.parm7 -c ../rst7s/coordinates_heat.rst7 -r ../rst7s/coordinates_"index".rst7 -inf info.inf -x "$output"

@@ -7,9 +7,9 @@ mkdir $dirname
 cd $dirname
 mkdir parms rst7s
 
-cp -r ~/scripts/MD_prep/_0 ~/scripts/MD_prep/_1 ~/scripts/MD_prep/_2 ~/scripts/MD_prep/_3 ~/scripts/MD_prep/MMGBSA/ ~/scripts/MD_prep/postprocessing ./
-cp -r ~/scripts/MD_prep/MD_cfg/ ./
-cp -r ~/scripts/MD_prep/python_scripts/ ./
+cp -r ~/scripts/md_run_preparation/_0 ~/scripts/md_run_preparation/_1 ~/scripts/md_run_preparation/_2 ~/scripts/md_run_preparation/_3 ~/scripts/md_run_preparation/MMGBSA/ ~/scripts/md_run_preparation/postprocessing ./
+cp -r ~/scripts/md_run_preparation/MD_cfg/ ./
+cp -r ~/scripts/md_run_preparation/python_scripts/ ./
 
 
 
