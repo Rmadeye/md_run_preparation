@@ -15,22 +15,13 @@ else
 fi
 
 
-source ~/amber20/amber.sh || source ~/amber20_src/amber.sh
+source ~/amber20/amber.sh || source /opt/apps/amber20/amber.sh
 
 
 read -p 'Is ligand present? y/n: ' ligand_presence
 
 if [ $ligand_presence = 'y' ]; then
 
-read -p 'Set your grant name for CPU jobs: ' grantname
-find .. -name "*.sh" -exec sed -i "s/grantid/$grantname/g" {} \;
-echo $grantname set as default CPU grant
-read -p 'Set your grant name for GPU jobs: ' grantnamegpu
-find .. -name "*.sh" -exec sed -i "s/grantidgpu/$grantnamegpu/g" {} \;
-echo $grantnamegpu set as default GPU grant
-read -p 'Set number of cores for MM/GB(PB)SA : ' ncpus_short
-find .. -name "*.sh" -exec sed -i "s/nodesnumber_short/$ncpus_short/g" {} \;
-echo "$ncpus_short set as number of cores for MM/GB(PB)SA"
 
 tleap -f ../MD_cfg/tleap.tleapin
 ambpdb -p ../parms/topology.parm7 -c ../rst7s/coordinates.rst7 > input_complex.pdb
@@ -54,9 +45,7 @@ read -p 'Set igb for MMGB(PB)SA:  (8 for anything but phosphates)' igb
 find .. -name "*.in" -exec sed -i "s/igbset/$igb/g" {} \;
 read -p 'Set calculation frame interval for MMGB(PB)SA:  (Default 10)' interval
 find .. -name "*.in" -exec sed -i "s/intervalset/$interval/g" {} \;
-read -p 'Set number of cpus used for MMGB(PB)SA calculations:  (Default 10)' ncpu_long
-find .. -name "*.sh" -exec sed -i "s/mmgbsacpu/$ncpu_long/g" {} \;
-echo "MMGB(PB)SA features set: ncpus $ncpu_long, igb = $igb, interval = $interval"
+echo "MMGB(PB)SA features set:igb = $igb, interval = $interval"
 find .. -name "*.sh" -exec sed -i "s/cluster-name/`basename ${PWD%/*}`/g" {} \;
 find .. -name "mmgbsa_local.sh" -exec sed -i "s/inputname/`basename ${PWD%/*}`/g" {} \;
 
@@ -72,7 +61,7 @@ read -p "Set minimisation steps (default 20000): " min_steps
 # read -p "Set heating steps (default 50000): " hit_steps
 read -p "Set production simulation length in ns: " prod_length
 read -p "Set equilibration period truncated from production simulations in ns:  " equilperiodraw
-equilperiod=$(($equilperiodraw*100))
+equilperiod=$(($equilperiodraw*500000))
 conj_grad=$(($min_steps/2))
 # nstlim_istep2=(($hit_length*500000))
 nstlim_prod=$(($prod_length*500000))
@@ -102,18 +91,13 @@ echo "**Preparation finished**"
 
 elif [ $ligand_presence = 'n' ]; then
 
-read -p 'Set your grant name for CPU jobs: ' grantname
-find .. -name "*.sh" -exec sed -i "s/grantid/$grantname/g" {} \;
-echo $grantname set as default CPU grant
-read -p 'Set your grant name for GPU jobs: ' grantnamegpu
-find .. -name "*.sh" -exec sed -i "s/grantidgpu/$grantnamegpu/g" {} \;
-echo $grantnamegpu set as default GPU grant
-
-sed -i "s/lig = loadmol2 lig.mol2//g" ../MD_cfg/tleap.in
-sed -i "s/loadamberparams lig.frcmod//g" ../MD_cfg/tleap.in
-sed -i "s/com = combine {prot, lig}//g" ../MD_cfg/tleap.in
-sed -i "s/com/prot/g" ../MD_cfg/tleap.in
-tleap -f ../MD_cfg/tleap.in
+sed -i "s/lig = loadmol2 lig.mol2//g" ../MD_cfg/tleap.tleapin
+sed -i "s/loadamberparams lig.frcmod//g" ../MD_cfg/tleap.tleapin
+sed -i "s/com = combine {prot, lig}//g" ../MD_cfg/tleap.tleapin
+sed -i "s/com/prot/g" ../MD_cfg/tleap.tleapin
+sed -i "s/rms ligand_rmsd :ligandindex&!:H= ref [min] out directoryname.csv//g"
+sed -i "s/surf SASA :ligandindex out directoryname.csv//g"
+tleap -f ../MD_cfg/tleap.tleapin
 ambpdb -p ../parms/topology.parm7 -c ../rst7s/coordinates.rst7 > input_complex.pdb
 read -p "Set filename for results: " results_filename
 end_resid=$(grep Na+ input_complex.pdb | awk '//{print $5}' | head -n 1)
@@ -127,10 +111,11 @@ fi
 fi
 
 last_residue_index=$(($end_resid-1))
-last_resid_name="$(grep -i "  $last_residue_index  " input_complex.pdb | awk '//{print $4}' | tail -n 1) "
-atom_count="$(grep -i "  $last_residue_index  " input_complex.pdb | awk '//{print $2}' | tail -n 1) "
-
+last_resid_name=$(awk -v var=$last_residue_index '$5 ==var {print $4}' input_complex.pdb | head -n 1)
+atom_count="$(grep -i "$last_resid_name   $last_residue_index  " input_complex.pdb | awk '//{print $2}' | tail -n 1) "
 echo $last_resid_name $last_residue_index identified as N-capping aminoacid, $atom_count set as printed number of atoms
+sed -i "s/atoms_written_to_trajectory/$real_atom_count/g" ../MD_cfg/heat.in
+sed -i "s/atoms_written_to_trajectory/$real_atom_count/g" ../MD_cfg/prod.in
 
 
 echo "Set of changes for CPPTRAJ"
@@ -183,11 +168,3 @@ else
 echo "incorrect answer, quitting..."
 exit
 fi
-
-
-
-
-
-
-
-
