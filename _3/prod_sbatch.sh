@@ -1,9 +1,10 @@
 #!/bin/bash
+#SBATCH -C rtx2080ti
 #SBATCH -p gpu          # GPU partition
 #SBATCH -n 1            # 8 cores
 #SBATCH --gres=gpu:1    # 1 GPU 
 #SBATCH --mem=8GB      # 8 GB of RAM
-#SBATCH -J producer_rmadeye     # name of your job
+#SBATCH -J producer     # name of your job
 
 source /opt/apps/amber20/amber.sh
 
