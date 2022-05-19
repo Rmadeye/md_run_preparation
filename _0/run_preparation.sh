@@ -27,7 +27,7 @@ ligand_presence=$1
 output_filename=$2
 igb=$3
 min_steps=$4
-prod_length=$5
+declare -i prod_length=$5
 equilperiodraw=$6
 reps_input=$7
 
@@ -42,20 +42,22 @@ fi
 tleap -f ../MD_cfg/tleap.tleapin
 ambpdb -p ../parms/topology.parm7 -c ../rst7s/coordinates.rst7 > input_complex.pdb
 ligname=$(cat lig.mol2 | awk '//{print $2}' | tail -n 1)
-#find .. -name "*.py" -exec sed -i "s/DEF/$ligname/g" {} \;
 ligand_index="$(grep -i $ligname input_complex.pdb | awk '//{print $5}' | uniq | head -n 1)"
+protein_residues_index=$(($ligand_index-1))
 atom_count="$(grep -i $ligname input_complex.pdb | awk '//{print $2}' | tail -n 1)"
 echo $ligname set as ligand name, $atom_count set as printed number of atoms
 echo "Preparing input files..."
-find . -name "*.sh" -exec sed -i "s/producer/$output_filename/g" {} \;
+find .. -name "*.sh" -exec sed -i "s/producer/$output_filename/g" {} \;
 echo "Set of changes for MMGBSA"
+
 find ../MMGBSA/ -name "*.sh" -exec sed -i "s/complex/$ligand_index/g" {} \;
+sed -i "s/rmsfresidues/$ligand_index/g" ../python_scripts/basic_validation.py
 find ../MMGBSA/ -name "*.sh" -exec sed -i "s/protein/$protein_residues_index/g" {} \
 find ../MMGBSA/ -name "*.sh" -exec sed -i "s/inputname/$results_filename/g" {} \;
 find .. -name "*.in" -exec sed -i "s/igbset/$igb/g" {} \;
 find .. -name "*.in" -exec sed -i "s/intervalset/10/g" {} \;
 echo "MMGB(PB)SA features set:igb = $igb, interval = every 10th frame"
-find .. -name "*.sh" -exec sed -i "s/cluster-name/`basename ${PWD%/*}`/g" {} \;
+find .. -name "*.sh" -exec sed -i "s/clusteroutname/`basename ${PWD%/*}`/g" {} \;
 find .. -name "mmgbsa_local.sh" -exec sed -i "s/inputname/`basename ${PWD%/*}`/g" {} \;
 echo "Set of changes for CPPTRAJ"
 find ../MD_cfg/ -name "*.in" -exec sed -i "s/complex/$ligand_index/g" {} \;
@@ -83,8 +85,8 @@ cp ../_3/prod_sbatch.sh ../_3/prod_sbatch_"$i".sh
 sed -i "s/index/$i/g" ../_3/prod_sbatch_"$i".sh
 done
 
-ante-MMPBSA.py -p ../parms/topology.parm7 -c ../parms/stripped.topology.parm7 -s ':WAT,:Na+,:Cl-'
-#ante-MMPBSA.py -p ../parms/stripped.topology.parm7 -s "!(:1-"$ligand_index")" -c ../MMGBSA/com.parm7 -m ":1-"$protein_residues_index"" -r ../MMGBSA/prot.parm7 -l ../MMGBSA/lig.parm7 --radii=mbondi2
+ante-MMPBSA.py -p ../parms/topology.parm7 -c ../parms/stripped.topology.parm7 -s ':WAT,:Na+,:Cl-' -m ":1-$protein_residues_index" -r ../parms/prot.parm7 -l ../parms/lig.parm7 --radii=mbondi2
+# ante-MMPBSA.py -p ../parms/stripped.topology.parm7 -s "!(:1-"$ligand_index")" -c ../MMGBSA/com.parm7 -m ":1-"$protein_residues_index"" -r ../MMGBSA/prot.parm7 -l ../MMGBSA/lig.parm7 --radii=mbondi2
 
 echo "**Preparation finished**"
 elif [ $ligand_presence = 'n' ]; then

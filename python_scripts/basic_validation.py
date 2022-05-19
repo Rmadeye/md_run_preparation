@@ -2,19 +2,19 @@ import pandas as pd
 import seaborn as sns
 import argparse
 
-timeline = pd.DataFrame([x for x in range(0,int(productiontime*100))]) # adjusted by bash
+# timeline = pd.DataFrame([x for x in range(0,int(productiontime*100))]) # adjusted by bash
 residues = pd.DataFrame([x for x in range(0,int(rmsfresidues))]) # adjusted by bash
 
 
 def plot_validation(result_csv: str) -> bool:
     df = pd.read_csv(result_csv, sep='\s+', engine='python')
-    df['Time'] = timeline
-    df['Time'] = df/100
-    df.drop('#Frame', axis=1, inplace=True)
+    # df['Time'] = timeline
+    # df['Time'] = df/100
+    # df.drop('#Frame', axis=1, inplace=True)
 
     # Radius of gyration
 
-    plot_rog = sns.lineplot(x='Time', y="radius", data=df)
+    plot_rog = sns.lineplot(x='#Frame', y="radius", data=df)
     plot_rog.set_xlabel("Time [ns]")
     plot_rog.set_ylabel("Radius of gyration [A]")
     plot_rog.set(ylim=(20,40))
@@ -23,7 +23,7 @@ def plot_validation(result_csv: str) -> bool:
     fig.clf()
     # Ligand RMSD
 
-    plot_lig = sns.lineplot(x='Time', y="ligand_rmsd", data=df)
+    plot_lig = sns.lineplot(x='#Frame', y="ligand_rmsd", data=df)
     plot_lig.set_xlabel("Time [ns]")
     plot_lig.set_ylabel("RMSD [A]")
     plot_lig.set(ylim=(0,5))
@@ -55,7 +55,7 @@ def plot_validation(result_csv: str) -> bool:
 
 
     #SASA
-    plot_rog = sns.lineplot(x='Time', y="SASA", data=df)
+    plot_rog = sns.lineplot(x='#Frame', y="SASA", data=df)
     plot_rog.set_xlabel("Time [ns]")
     plot_rog.set_ylabel("SASA [A^2]")
     fig = plot_rog.get_figure()
@@ -64,7 +64,7 @@ def plot_validation(result_csv: str) -> bool:
 
     #C, CA, N, O
     df_cacno = df[['Time', 'CA','C','N','O']]
-    newdf = df_cacno.melt('Time', var_name="Atom", value_name='vals')
+    newdf = df_cacno.melt('#Frame', var_name="Atom", value_name='vals')
     plot = sns.lineplot(x=newdf['Time'], y="vals", hue='Atom', data=newdf)
     plot.set_xlabel("Time [ns]")
     plot.set_ylabel("RMSD [A]")
