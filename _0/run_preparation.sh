@@ -53,7 +53,7 @@ echo "Set of changes for MMGBSA"
 find ../MMGBSA/ -name "*.sh" -exec sed -i "s/complex/$ligand_index/g" {} \;
 sed -i "s/rmsfresidues/$ligand_index/g" ../python_scripts/basic_validation.py
 find ../MMGBSA/ -name "*.sh" -exec sed -i "s/protein/$protein_residues_index/g" {} \
-find ../MMGBSA/ -name "*.sh" -exec sed -i "s/inputname/$results_filename/g" {} \;
+find ../MMGBSA/ -name "*.sh" -exec sed -i "s/inputname/$output_filename/g" {} \;
 find .. -name "*.in" -exec sed -i "s/igbset/$igb/g" {} \;
 find .. -name "*.in" -exec sed -i "s/intervalset/10/g" {} \;
 echo "MMGB(PB)SA features set:igb = $igb, interval = every 10th frame"
@@ -63,7 +63,7 @@ echo "Set of changes for CPPTRAJ"
 find ../MD_cfg/ -name "*.in" -exec sed -i "s/complex/$ligand_index/g" {} \;
 find ../MD_cfg/ -name "*.in" -exec sed -i "s/protein/$protein_residues_index/g" {} \;
 find ../MD_cfg/ -name "*.in" -exec sed -i "s/ligandindex/$ligand_index/g" {} \;
-find ../MD_cfg/ -name "*.in" -exec sed -i "s/directoryname/$results_filename/g" {} \;
+find ../MD_cfg/ -name "*.in" -exec sed -i "s/directoryname/$output_filename/g" {} \;
 find ../MD_cfg/ -name "*.in" -exec sed -i "s/clusname/$ligname/g" {} \;
 echo "Set of changes for input files"
 equilperiod=$(($equilperiodraw*100))
@@ -77,8 +77,6 @@ sed -i "s/atoms_written_to_trajectory/$atom_count/g" ../MD_cfg/heat.in
 sed -i "s/atoms_written_to_trajectory/$atom_count/g" ../MD_cfg/prod.in
 sed -i "s/time_of_simulation/$nstlim_prod/g" ../MD_cfg/prod.in
 reps=$(seq $reps_input)
-
-sed -i "s/reps/$reps_input/g" ../_3/prod.sh
 
 for i in $reps; do
 cp ../_3/prod_sbatch.sh ../_3/prod_sbatch_"$i".sh
@@ -121,7 +119,7 @@ echo "Set of changes for CPPTRAJ"
 find ../MD_cfg/ -name "*.in" -exec sed -i "s/complex/$last_residue_index/g" {} \;
 find ../MD_cfg/ -name "*.in" -exec sed -i "s/protein/$last_residue_index/g" {} \;
 #find ../MD_cfg/ -name "*.in" -exec sed -i "s/ligandindex/$ligand_index/g" {} \;
-find ../MD_cfg/ -name "*.in" -exec sed -i "s/directoryname/$results_filename/g" {} \;
+find ../MD_cfg/ -name "*.in" -exec sed -i "s/directoryname/$output_filename/g" {} \;
 find ../MD_cfg/ -name "*.in" -exec sed -i "s/clusname/$ligname/g" {} \;
 
 echo "Set of changes for input files"
