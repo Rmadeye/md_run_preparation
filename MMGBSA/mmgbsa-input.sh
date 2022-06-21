@@ -12,4 +12,3 @@ source /opt/apps/amber18/amber.sh
 
 mpirun -np 8 MMPBSA.py.MPI -O -i GB.in -o inputname_GB.dat -do inputname_decomposed.dat -cp ../parms/com.parm7 -rp ../parms/prot.parm7 -lp ../parms/lig.parm7 -y ../postprocessing/merged_centered.nc
 
-

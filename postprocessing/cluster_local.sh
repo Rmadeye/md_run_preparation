@@ -7,7 +7,7 @@
 
 source ~/amber20/amber.sh || source /opt/apps/amber20/amber.sh
 
-cp ../parms/stripped.topology.parm7 ../MD_cfg/cpptraj_cluster.in ./
+cp ../parms/com.parm7 ../MD_cfg/cpptraj_cluster.in ./
 
 cpptraj -i cpptraj_cluster.in
 
