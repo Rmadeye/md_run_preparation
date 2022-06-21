@@ -38,6 +38,10 @@ find . -name "*.sh" -exec sed -i "s/producer/$results_filename/g" {} \;
 echo "Preparing residue indexes in MM/GB(PB)SA and CPPTRAJ input files..."
 protein_residues_index=$(($ligand_index-1))
 
+
+echo "********* Last protein residue: $protein_residues_index **********"
+
+
 echo "Set of changes for MMGBSA"
 find ../MMGBSA/ -name "*.sh" -exec sed -i "s/complex/$ligand_index/g" {} \;
 find ../MMGBSA/ -name "*.sh" -exec sed -i "s/protein/$protein_residues_index/g" {} \;
