@@ -54,15 +54,15 @@ echo "Preparing input files..."
 find .. -name "*.sh" -exec sed -i "s/producer/$output_filename/g" {} \;
 echo "Set of changes for MMGBSA"
 
-sed -i "s/complex/$ligand_index/g" ../MMGBSA/mmgbsa-input.sh \;
+sed -i "s/complex/$ligand_index/g" ../MMGBSA/mmgbsa-input.sh 
 sed -i "s/rmsfresidues/$ligand_index/g" ../python_scripts/basic_validation.py
-sed -i "s/protein/$protein_residues_index/g" ../MMGBSA/mmgbsa-input.sh \;
-sed -i "s/inputname/$output_filename/g" ../MMGBSA/mmgbsa-input.sh \;
+sed -i "s/protein/$protein_residues_index/g" ../MMGBSA/mmgbsa-input.sh 
+sed -i "s/inputname/$output_filename/g" ../MMGBSA/mmgbsa-input.sh 
 find .. -name "*.in" -exec sed -i "s/igbset/$igb/g" {} \;
 find .. -name "*.in" -exec sed -i "s/intervalset/10/g" {} \;
 echo "MMGB(PB)SA features set:igb = $igb, interval = every 10th frame"
 find .. -name "*.sh" -exec sed -i "s/clusteroutname/`basename ${PWD%/*}`/g" {} \;
-sed -i "s/inputname/`basename ${PWD%/*}`/g" ../MMGBSA/mmgbsa-input.sh \;
+sed -i "s/inputname/`basename ${PWD%/*}`/g" ../MMGBSA/mmgbsa-input.sh 
 echo "Set of changes for CPPTRAJ"
 find ../MD_cfg/ -name "*.in" -exec sed -i "s/complex/$ligand_index/g" {} \;
 find ../MD_cfg/ -name "*.in" -exec sed -i "s/protein/$protein_residues_index/g" {} \;
