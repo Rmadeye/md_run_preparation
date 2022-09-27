@@ -10,5 +10,5 @@ com = combine {prot, lig}
 solvateOct com TIP3PBOX 12.0
 addions com Na+ 0
 addions com Cl- 0
-saveamberparm com ../parms/topology.parm7 ../rst7s/coordinates.rst7
+saveamberparm com ../parms/original_topology.parm7 ../rst7s/coordinates.rst7
 quit

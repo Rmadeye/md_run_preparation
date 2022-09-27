@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --exclude=edi0[0,1,2,3,8]
+#SBATCH --exclude=edi0[0,1,2,3,7,8]
 #SBATCH -p gpu          # GPU partition
 #SBATCH -n 1            # 8 cores
 #SBATCH --gres=gpu:1    # 1 GPU 

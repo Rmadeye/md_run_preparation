@@ -39,6 +39,9 @@ else
     exit 
 fi
 
+
+
+cat prot.pdb lig.pdb >> cplx.pdb
 tleap -f ../MD_cfg/tleap.tleapin
 ambpdb -p ../parms/topology.parm7 -c ../rst7s/coordinates.rst7 > input_complex.pdb
 ligname=$(cat lig.mol2 | awk '//{print $2}' | tail -n 1)
@@ -51,8 +54,10 @@ atom_count="$(grep -i $ligname input_complex.pdb | awk '//{print $2}' | tail -n 
 fi
 echo $ligname set as ligand name, $atom_count set as printed number of atoms
 echo "Preparing input files..."
+parmed -i ../MD_cfg/parmed
 find .. -name "*.sh" -exec sed -i "s/producer/$output_filename/g" {} \;
 echo "Set of changes for MMGBSA"
+
 
 sed -i "s/complex/$ligand_index/g" ../MMGBSA/mmgbsa-input.sh 
 sed -i "s/rmsfresidues/$ligand_index/g" ../python_scripts/basic_validation.py
@@ -113,8 +118,10 @@ fi
 
 last_residue_index=$(($end_resid-1))
 last_resid_name=$(awk -v var=$last_residue_index '$5 ==var {print $4}' input_complex.pdb | head -n 1)
-atom_count="$(grep -i "$last_resid_name   $last_residue_index  " input_complex.pdb | awk '//{print $2}' | tail -n 1) "
-echo $last_resid_name $last_residue_index identified as N-capping aminoacid, $atom_count set as printed number of atoms
+atom_count="$(grep -i $end_resid input_complex.pdb | awk '//{print $2}' | tail -n 2 | head -n 1)"
+cat prot.pdb lig.pdb >> cplx.pdb
+# atom_count="$(grep -i "$last_resid_name   $last_residue_index  " input_complex.pdb | awk '//{print $2}' | tail -n 1) "
+echo $last_resid_name $last_residue_index identified as N-capping aminoacid, > $atom_count < set as printed number of atoms
 sed -i "s/atoms_written_to_trajectory/$real_atom_count/g" ../MD_cfg/heat.in
 sed -i "s/atoms_written_to_trajectory/$real_atom_count/g" ../MD_cfg/prod.in
 
@@ -152,7 +159,14 @@ rm ../MD_cfg/cpptraj_cluster.in
 rm ../postprocessing/cluster_local.sh
 rm ../postprocessing/cluster_plgrid.sh
 
+echo "Modyfing topology using parmed..."
+
+mv ../parms/topology.parm7 ../parms/original_topology.parm7
+
+parmed -i ../MD_cfg/parmed
+
 ante-MMPBSA.py -p ../parms/topology.parm7 -c ../parms/stripped.topology.parm7 -s ':WAT,:Na+,:Cl-'
+find .. -name "*.sh" -exec sed -i "s/producer/$output_filename/g" {} \;
 
 echo "**Preparation finished**"
 fi
