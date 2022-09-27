@@ -1,0 +1,5 @@
+parm ../parms/original_topology.parm7
+addPdb ../_0/cplx.pdb
+outparm ../parms/topology.parm7
+quit
+
