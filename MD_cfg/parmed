@@ -1,0 +1,4 @@
+parm ../parms/org_topology.parm7
+hmassrepartition
+outparm ../parms/topology.parm7
+quit

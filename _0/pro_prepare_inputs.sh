@@ -167,7 +167,7 @@ rm ../MD_cfg/cpptraj_cluster.in
 rm ../postprocessing/cluster_local.sh
 rm ../postprocessing/cluster_plgrid.sh
 
-ante-MMPBSA.py -p ../parms/topology.parm7 -c ../parms/stripped.topology.parm7 -s ':WAT,:Na+,:Cl-'
+ante-MMPBSA.py -p ../parms/topology.parm7 -c com.parm7 -s ':WAT,:Na+,:Cl-'
 
 echo "**Preparation finished**"
 

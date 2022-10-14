@@ -1,14 +1,30 @@
 source leaprc.gaff2
 source leaprc.protein.ff19SB
 source leaprc.water.opc
-source leaprc.DNA.OL15
-source leaprc.RNA.OL3
-lig = loadmol2 lig.mol2
-loadamberparams lig.frcmod
+source leaprc.lipid17
 prot = loadpdb prot.pdb
+bond prot.60.SG prot.173.SG
+bond prot.64.SG prot.168.SG
+bond prot.53.SG prot.179.SG
+bond prot.336.SG prot.462.SG
+bond prot.619.SG prot.745.SG
+bond prot.902.SG prot.1028.SG
+bond prot.1185.SG prot.1311.SG
+bond prot.1468.SG prot.1594.SG
+bond prot.343.SG prot.456.SG
+bond prot.626.SG prot.739.SG
+bond prot.909.SG prot.1022.SG
+bond prot.1192.SG prot.1305.SG
+bond prot.1475.SG prot.1588.SG
+bond prot.347.SG prot.451.SG
+bond prot.630.SG prot.734.SG
+bond prot.913.SG prot.1017.SG
+bond prot.1196.SG prot.1300.SG
+bond prot.1479.SG prot.1583.SG
 com = combine {prot, lig}
-solvateOct com TIP3PBOX 12.0
+solvateBox com TIP3PBOX 1.0
 addions com Na+ 0
-addions com Cl- 0
-saveamberparm com ../parms/topology.parm7 ../rst7s/coordinates.rst7
+addionsrand com K+ 195
+addionsrand com Cl- 195 
+saveamberparm com ../parms/org_topology.parm7 ../rst7s/coordinates.rst7
 quit

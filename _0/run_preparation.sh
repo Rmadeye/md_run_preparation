@@ -40,6 +40,7 @@ else
 fi
 
 tleap -f ../MD_cfg/tleap.tleapin
+parmed -i ../MD_cfg/parmed
 ambpdb -p ../parms/topology.parm7 -c ../rst7s/coordinates.rst7 > input_complex.pdb
 ligname=$(cat lig.mol2 | awk '//{print $2}' | tail -n 1)
 ligand_index="$(grep -i $ligname input_complex.pdb | awk '//{print $5}' | uniq | head -n 1)"
@@ -100,6 +101,7 @@ sed -i "s/com/prot/g" ../MD_cfg/tleap.tleapin
 sed -i "s/rms ligand_rmsd :ligandindex&!:H= ref [min] out directoryname.csv//g"
 sed -i "s/surf SASA :ligandindex out directoryname.csv//g"
 tleap -f ../MD_cfg/tleap.tleapin
+parmed -i ../MD_cfg/parmed
 ambpdb -p ../parms/topology.parm7 -c ../rst7s/coordinates.rst7 > input_complex.pdb
 end_resid=$(grep Na+ input_complex.pdb | awk '//{print $5}' | head -n 1)
 if [ -z "$end_resid" ]
@@ -113,10 +115,14 @@ fi
 
 last_residue_index=$(($end_resid-1))
 last_resid_name=$(awk -v var=$last_residue_index '$5 ==var {print $4}' input_complex.pdb | head -n 1)
-atom_count="$(grep -i "$last_resid_name   $last_residue_index  " input_complex.pdb | awk '//{print $2}' | tail -n 1) "
+if [ $(grep -i $last_resid_name input_complex.pdb | awk '//{print $1}' | tail -n 1) = 'TER' ]; then
+atom_count="$(grep -i $last_resid_name input_complex.pdb | awk '//{print $2}' | tail -n 2 | head -n 1)"
+else
+atom_count="$(grep -i $last_resid_name input_complex.pdb | awk '//{print $2}' | tail -n 1)"
+fi
 echo $last_resid_name $last_residue_index identified as N-capping aminoacid, $atom_count set as printed number of atoms
-sed -i "s/atoms_written_to_trajectory/$real_atom_count/g" ../MD_cfg/heat.in
-sed -i "s/atoms_written_to_trajectory/$real_atom_count/g" ../MD_cfg/prod.in
+sed -i "s/atoms_written_to_trajectory/$atom_count/g" ../MD_cfg/heat.in
+sed -i "s/atoms_written_to_trajectory/$atom_count/g" ../MD_cfg/prod.in
 
 
 echo "Set of changes for CPPTRAJ"
@@ -142,17 +148,20 @@ reps=$(seq $reps_input)
 
 for i in $reps; do
 cp ../_3/prod_sbatch.sh ../_3/prod_sbatch_"$i".sh
+cp ../_3/ares_run.sh ../_3/ares_run_"$i".sh
 sed -i "s/index/$i/g" ../_3/prod_sbatch_"$i".sh
+sed -i "s/index/$i/g" ../_3/ares_run_"$i".sh
 done
 
 echo "Cleaning..."
-
+rm ../_3/prod_sbatch.sh
+rm ../_3/ares_run.sh
 rm -r ../MMGBSA/
 rm ../MD_cfg/cpptraj_cluster.in
 rm ../postprocessing/cluster_local.sh
 rm ../postprocessing/cluster_plgrid.sh
 
-ante-MMPBSA.py -p ../parms/topology.parm7 -c ../parms/stripped.topology.parm7 -s ':WAT,:Na+,:Cl-'
+ante-MMPBSA.py -p ../parms/topology.parm7 -c ../parms/com.parm7 -s ':WAT,:Na+,:Cl-,:K+'
 
 echo "**Preparation finished**"
 fi
