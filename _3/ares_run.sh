@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH -n 1
-#SBATCH --time=48:00:00
+#SBATCH --time=24:00:00
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=r.madaj@uw.edu.pl
 #SBATCH -A plgcx32gpu-gpu

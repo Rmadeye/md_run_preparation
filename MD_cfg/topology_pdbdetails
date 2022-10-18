@@ -1,0 +1,4 @@
+parm ../parms/com.parm7
+addPdb ../_0/prot.pdb
+outparm cplx_details.parm7
+quit
