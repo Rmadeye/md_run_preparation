@@ -99,7 +99,9 @@ sed -i "s/loadamberparams lig.frcmod//g" ../MD_cfg/tleap.tleapin
 sed -i "s/com = combine {prot, lig}//g" ../MD_cfg/tleap.tleapin
 sed -i "s/com/prot/g" ../MD_cfg/tleap.tleapin
 sed -i "s/rms ligand_rmsd :ligandindex&!:H= ref [min] out directoryname.csv//g"
-sed -i "s/surf SASA :ligandindex out directoryname.csv//g"
+sed -i "s/surf SASA :ligandindex out directoryname.csv/''/g"
+equilperiod=$(($equilperiodraw*100))
+sed -i "s/equilperiod/$equilperiod/g" ../MD_cfg/cpptraj_prepare_and_analyze.in
 tleap -f ../MD_cfg/tleap.tleapin
 parmed -i ../MD_cfg/parmed
 ambpdb -p ../parms/topology.parm7 -c ../rst7s/coordinates.rst7 > input_complex.pdb
@@ -123,6 +125,7 @@ fi
 echo $last_resid_name $last_residue_index identified as N-capping aminoacid, $atom_count set as printed number of atoms
 sed -i "s/atoms_written_to_trajectory/$atom_count/g" ../MD_cfg/heat.in
 sed -i "s/atoms_written_to_trajectory/$atom_count/g" ../MD_cfg/prod.in
+sed -i "s/:clusname/:1-$last_residue_index@C,CA,N,O"
 
 
 echo "Set of changes for CPPTRAJ"
@@ -158,7 +161,6 @@ rm ../_3/prod_sbatch.sh
 rm ../_3/ares_run.sh
 rm -r ../MMGBSA/
 rm ../MD_cfg/cpptraj_cluster.in
-rm ../postprocessing/cluster_local.sh
 rm ../postprocessing/cluster_plgrid.sh
 
 ante-MMPBSA.py -p ../parms/topology.parm7 -c ../parms/com.parm7 -s ':WAT,:Na+,:Cl-,:K+'
