@@ -62,6 +62,8 @@ find .. -name "*.in" -exec sed -i "s/igbset/$igb/g" {} \;
 find .. -name "*.in" -exec sed -i "s/intervalset/10/g" {} \;
 echo "MMGB(PB)SA features set:igb = $igb, interval = every 10th frame"
 find .. -name "*.sh" -exec sed -i "s/clusteroutname/`basename ${PWD%/*}`/g" {} \;
+find .. -name "*.in" -exec sed -i "s/clusteroutname/`basename ${PWD%/*}`/g" {} \;
+
 sed -i "s/inputname/`basename ${PWD%/*}`/g" ../MMGBSA/mmgbsa-input.sh 
 echo "Set of changes for CPPTRAJ"
 find ../MD_cfg/ -name "*.in" -exec sed -i "s/complex/$ligand_index/g" {} \;

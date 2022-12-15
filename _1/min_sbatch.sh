@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH -p cpu          # CPU partition
 #SBATCH -n 8            # 8 cores
-#SBATCH -w edi00
+#SBATCH -N 1
 #SBATCH --mem=8GB      # 8 GB of RAM
 #SBATCH -J minimisation_rmadeye     # name of your job
 
