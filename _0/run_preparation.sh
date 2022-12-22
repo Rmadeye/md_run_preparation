@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 
-source ~/amber20/amber.sh || source /opt/apps/amber20/amber.sh
+source ~/amber18/amber.sh || source /opt/apps/amber18/amber.sh
 
 help() {
     echo "Usage: $1 <ligand presence (y/n)< $2 <output filename> $3 <MM/GBSA igb (5/8)>
@@ -102,8 +102,11 @@ sed -i "s/rms ligand_rmsd :ligandindex&!:H= ref [min] out directoryname.csv//g"
 sed -i "s/surf SASA :ligandindex out directoryname.csv/''/g"
 equilperiod=$(($equilperiodraw*100))
 sed -i "s/equilperiod/$equilperiod/g" ../MD_cfg/cpptraj_prepare_and_analyze.in
+pdb4amber -f prot.pdb -o prot_4amber.pdb -y 
+mv prot.pdb prot_b4amber.pdb
+mv prot_4amber.pdb prot.pdb
 tleap -f ../MD_cfg/tleap.tleapin
-parmed -i ../MD_cfg/parmed
+#parmed -i ../MD_cfg/parmed
 ambpdb -p ../parms/topology.parm7 -c ../rst7s/coordinates.rst7 > input_complex.pdb
 end_resid=$(grep Na+ input_complex.pdb | awk '//{print $5}' | head -n 1)
 if [ -z "$end_resid" ]
@@ -138,7 +141,7 @@ find ../MD_cfg/ -name "*.in" -exec sed -i "s/clusname/$ligname/g" {} \;
 echo "Set of changes for input files"
 conj_grad=$(($min_steps/2))
 # nstlim_istep2=(($hit_length*500000))
-nstlim_prod=$(($prod_length*500000))
+nstlim_prod=$(($prod_length*500000))  # 
 sed -i "s/minsteps/$min_steps/g" ../MD_cfg/min.in
 sed -i "s/maxcycby2/$conj_grad/g" ../MD_cfg/min.in
 sed -i "s/atoms_written_to_trajectory/$atom_count/g" ../MD_cfg/heat.in

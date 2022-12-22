@@ -1,4 +1,4 @@
-parm ../parms/com.parm7
-addPdb ../_0/prot.pdb
-outparm ../parms/cplx_details.parm7
+parm ../parms/org_topology.parm7
+addPdb ../_0/prot_b4amber.pdb
+outparm ../parms/topology.parm7
 quit

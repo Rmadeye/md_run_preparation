@@ -1,4 +1,4 @@
 parm ../parms/org_topology.parm7
-hmassrepartition
+addpdb prot_b4amber.pdb
 outparm ../parms/topology.parm7
 quit
