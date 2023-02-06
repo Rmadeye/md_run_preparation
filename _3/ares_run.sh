@@ -3,11 +3,11 @@
 #SBATCH --time=24:00:00
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=r.madaj@uw.edu.pl
-#SBATCH -A plgcx32gpu-gpu
+#SBATCH -A plgtrametes-gpu
 #SBATCH --partition=plgrid-gpu-v100
 #SBATCH --gres=gpu:1
 
-module load amber/20.12-fosscuda-2020b-ambertools-21.12
+module load amber/22.0-foss-2021b-ambertools-22.2-cuda-11.4.1
 
 filename=`basename ${PWD%/*}`;
 output="$filename"\_index.nc

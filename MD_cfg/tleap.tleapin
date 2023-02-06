@@ -1,13 +1,11 @@
 source leaprc.gaff2
 source leaprc.protein.ff19SB
 source leaprc.water.opc
-source leaprc.lipid17
 prot = loadpdb prot.pdb
+lig = loadmol2 lig.mol2
 com = combine {prot, lig}
-solvateBox com TIP3PBOX 5.0
+solvateBox com TIP3PBOX 9.0
 addions com Na+ 0
 addions com Cl- 0
-addionsrand com K+ 399
-addionsrand com Cl- 399 
-saveamberparm com ../parms/topology.parm7 ../parms/coordinates.rst7
+saveamberparm com ../parms/topology.parm7 ../rst7s/coordinates.rst7
 quit

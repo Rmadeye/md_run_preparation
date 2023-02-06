@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ~/amber20/amber.sh || source /opt/apps/amber20/amber.sh
+source ~/amber20/amber.sh || source /opt/apps/amber20/amber.sh || module load amber/22.1-intel-2021b-ambertools-22.3-updated-cpptraj
 
 help() {
     echo "Usage: $0 <filename> <extension> <charge>"
