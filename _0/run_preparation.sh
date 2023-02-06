@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 
-source ~/amber18/amber.sh || source /opt/apps/amber18/amber.sh
+source ~/amber18/amber.sh || source /opt/apps/amber18/amber.sh || module load amber/22.1-intel-2021b-ambertools-22.3-updated-cpptraj
 
 help() {
     echo "Usage: $1 <ligand presence (y/n)< $2 <output filename> $3 <MM/GBSA igb (5/8)>
@@ -40,7 +40,7 @@ else
 fi
 
 tleap -f ../MD_cfg/tleap.tleapin
-parmed -i ../MD_cfg/parmed
+#parmed -i ../MD_cfg/parmed
 ambpdb -p ../parms/topology.parm7 -c ../rst7s/coordinates.rst7 > input_complex.pdb
 ligname=$(cat lig.mol2 | awk '//{print $2}' | tail -n 1)
 ligand_index="$(grep -i $ligname input_complex.pdb | awk '//{print $5}' | uniq | head -n 1)"
@@ -171,3 +171,7 @@ ante-MMPBSA.py -p ../parms/topology.parm7 -c ../parms/com.parm7 -s ':WAT,:Na+,:C
 echo "**Preparation finished**"
 fi
 
+
+
+# antechamber -i 2m4np.gesp -fi gesp -o lig.mol2 -fo mol2 -c resp -eq 2 -nc 0
+# parmchk2 -i lig.mol2 -f mol2 -o lig.frcmod
