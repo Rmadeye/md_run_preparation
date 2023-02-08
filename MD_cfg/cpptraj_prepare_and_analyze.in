@@ -1,4 +1,4 @@
-parm ../parms/cplx_details.parm7
+parm ../parms/com.parm7
 trajin ../_3/*.nc equilperiod
 autoimage
 average ../postprocessing/average.pdb

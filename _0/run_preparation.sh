@@ -85,7 +85,9 @@ reps=$(seq $reps_input)
 
 for i in $reps; do
 cp ../_3/prod_sbatch.sh ../_3/prod_sbatch_"$i".sh
+cp ../_3/ares_run.sh ../_3/ares_run_"$i".sh
 sed -i "s/index/$i/g" ../_3/prod_sbatch_"$i".sh
+sed -i "s/index/$i/g" ../_3/ares_run_"$i".sh
 done
 
 ante-MMPBSA.py -p ../parms/topology.parm7 -c ../parms/stripped.topology.parm7 -s ':WAT,:Na+,:Cl-' -c ../parms/com.parm7 -m ":1-$protein_residues_index" -r ../parms/prot.parm7 -l ../parms/lig.parm7 --radii=mbondi2
