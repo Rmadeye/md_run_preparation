@@ -11,6 +11,7 @@ rms distplot (:1-complex&!@H=) first out directoryname.csv
 reference ../postprocessing/minim.pdb [min]
 atomicfluct rmsf out directoryname.csv !@H= byres bfactor
 rms ligand_rmsd :ligandindex&!:H= ref [min] out directoryname.csv
+rms ligand_distance :ligandindex&!:H= ref [min] nofit out directoryname.csv
 rms C (:1-protein)&@C ref [min] out directoryname.csv
 rms CA (:1-protein)&@CA ref [min] out directoryname.csv
 rms O (:1-protein)&@O ref [min] out directoryname.csv
