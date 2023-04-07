@@ -1,15 +1,8 @@
-#!/bin/bash -l
-#SBATCH -J basic_analysis
-#SBATCH -N 1
-#SBATCH -n 1
-#SBATCH --time=1:00:00
-#SBATCH -A grantid
-#SBATCH --partition=
+#!/bin/bash
 
-module load plgrid/apps/amber/20
+source /opt/apps/amber20/amber.sh | module load amber/20.12-intel-2021b-ambertools-21.12
+
+parmed -i ../MD_cfg/topology_pdbdetails
 
 cpptraj -i ../MD_cfg/cpptraj_prepare_and_analyze.in
-
-module load plgrid/tools/python/3.8
-
-python3 ../python_scripts/basic_validation.py -i *.csv
+#python3 ../basic_validation.py -i *.csv

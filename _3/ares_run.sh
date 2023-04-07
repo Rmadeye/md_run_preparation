@@ -1,12 +1,13 @@
 #!/bin/bash
-#SBATCH --exclude=edi0[0,1,2,3,8]
-#SBATCH -p gpu          # GPU partition
-#SBATCH -n 1            # 8 cores
-#SBATCH --gres=gpu:1    # 1 GPU 
-#SBATCH --mem=8GB      # 8 GB of RAM
-#SBATCH -J producer     # name of your job
+#SBATCH -n 1
+#SBATCH --time=24:00:00
+#SBATCH --mail-type=ALL
+#SBATCH --mail-user=r.madaj@uw.edu.pl
+#SBATCH -A grantname
+#SBATCH --partition=plgrid-gpu-v100
+#SBATCH --gres=gpu:1
 
-source /opt/apps/amber20/amber.sh
+module load amber/22.0-foss-2021b-ambertools-22.2-cuda-11.4.1
 
 filename=`basename ${PWD%/*}`;
 output="$filename"\_index.nc

@@ -4,7 +4,7 @@ strip !(:1-complex)
 trajout ../postprocessing/minim.pdb
 run
 clear all
-parm ../parms/stripped.topology.parm7
+parm ../parms/com.parm7
 trajin ../_2/mdcrd
 trajout ../_2/checked_confirmed.nc
 run

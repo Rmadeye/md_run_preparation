@@ -1,0 +1,5 @@
+parm ../parms/com.parm7
+trajin mdcrd onlyframes 1
+trajout ../postprocessing/minim.pdb
+run
+quit

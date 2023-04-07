@@ -1,7 +1,14 @@
-#!/bin/bash -l
+#!/bin/bash
+#SBATCH -p cpu          # CPU partition
+#SBATCH -n 1            # 8 cores
+#SBATCH --exclude=edi08
+#SBATCH --mem=10GB      # 8 GB of RAM
+#SBATCH -J clustering     # name of your job
 
-cp ../parms/stripped.topology.parm7 merged_centered.nc ../MD_cfg/cpptraj_cluster.in ./
+source ~/amber20/amber.sh || source /opt/apps/amber20/amber.sh
 
-mpirun -np 8 cpptraj.MPI -i cpptraj_cluster.in
+cp ../parms/com.parm7 ../MD_cfg/cpptraj_cluster.in ./
+
+cpptraj -i cpptraj_cluster.in
 
 

@@ -1,12 +1,13 @@
 #!/bin/bash
-#SBATCH -p cpu          # CPU partition
-#SBATCH -w edi00
+#SBATCH -A plgtrametes-cpu
 #SBATCH -n 8            # 8 cores
-#SBATCH --mem=8GB      # 8 GB of RAM
-#SBATCH -J MMGBSA     # name of your job
+#SBATCH --time=3:00:00
+#SBATCH --mail-type=ALL
+#SBATCH --mail-user=r.madaj@uw.edu.pl
+#SBATCH --partition=plgrid-now
+#SBATCH -J minimisation_rmadeye     # name of your job
 
-
-source /opt/apps/amber18/amber.sh
+module load amber/22.1-intel-2021b-ambertools-22.3-updated-cpptraj
 
 #ante-MMPBSA.py -p ../parms/stripped.topology.parm7 -s "!(:1-complex)" -c com.parm7 -m ":1-protein" -r prot.parm7 -l lig.parm7 --radii=mbondi2
 
