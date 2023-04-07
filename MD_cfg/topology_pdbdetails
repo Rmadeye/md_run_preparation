@@ -1,4 +1,0 @@
-parm ../parms/org_topology.parm7
-addPdb ../_0/prot_b4amber.pdb
-outparm ../parms/topology.parm7
-quit
