@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH -A plgtrametes-gpu
+#SBATCH -A grantname
 #SBATCH -n 1            # 8 cores
 #SBATCH --time=00:20:00
 #SBATCH --mail-type=ALL

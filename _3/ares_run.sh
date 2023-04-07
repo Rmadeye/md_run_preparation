@@ -3,7 +3,7 @@
 #SBATCH --time=24:00:00
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=r.madaj@uw.edu.pl
-#SBATCH -A plgtrametes-gpu
+#SBATCH -A grantname
 #SBATCH --partition=plgrid-gpu-v100
 #SBATCH --gres=gpu:1
 

@@ -5,10 +5,10 @@ source ~/amber18/amber.sh || source /opt/apps/amber18/amber.sh || module load am
 help() {
     echo "Usage: $1 <ligand presence (y/n)< $2 <output filename> $3 <MM/GBSA igb (5/8)>
      $4 <minimisation steps (default 20000)> $5 <simulation length (in ns)> $6 <equilibration period (in ns)>
-     $7 <number of simulations (repetitions)>"
+     $7 <number of simulations (repetitions)> $8 <grant name on cluster>"
     }
 
-if [[ $# < 7 ]]; then
+if [[ $# < 8 ]]; then
     help
     exit 1
 fi
@@ -30,6 +30,7 @@ min_steps=$4
 declare -i prod_length=$5
 equilperiodraw=$6
 reps_input=$7
+grant_name=$8
 
 if [ $ligand_presence = 'y' ]; then
 if [ -f "lig.mol2" -a -f "lig.frcmod" ]; then
@@ -40,7 +41,6 @@ else
 fi
 
 tleap -f ../MD_cfg/tleap.tleapin
-#parmed -i ../MD_cfg/parmed
 ambpdb -p ../parms/topology.parm7 -c ../rst7s/coordinates.rst7 > input_complex.pdb
 ligname=$(cat lig.mol2 | awk '//{print $2}' | tail -n 1)
 ligand_index="$(grep -i $ligname input_complex.pdb | awk '//{print $5}' | uniq | head -n 1)"
@@ -53,6 +53,7 @@ fi
 echo $ligname set as ligand name, $atom_count set as printed number of atoms
 echo "Preparing input files..."
 find .. -name "*.sh" -exec sed -i "s/producer/$output_filename/g" {} \;
+find .. -name "*.sh" -exec sed -i "s/grantname/$grant_name/g" {} \;
 echo "Set of changes for MMGBSA"
 
 sed -i "s/complex/$ligand_index/g" ../MMGBSA/mmgbsa-input.sh 
@@ -91,7 +92,6 @@ sed -i "s/index/$i/g" ../_3/ares_run_"$i".sh
 done
 
 ante-MMPBSA.py -p ../parms/topology.parm7 -c ../parms/stripped.topology.parm7 -s ':WAT,:Na+,:Cl-' -c ../parms/com.parm7 -m ":1-$protein_residues_index" -r ../parms/prot.parm7 -l ../parms/lig.parm7 --radii=mbondi2
-#ante-MMPBSA.py -p ../parms/stripped.topology.parm7 -s "!(:1-"$ligand_index")" -c ../MMGBSA/com.parm7 -m ":1-"$protein_residues_index"" -r ../MMGBSA/prot.parm7 -l ../MMGBSA/lig.parm7 --radii=mbondi2
 
 echo "**Preparation finished**"
 elif [ $ligand_presence = 'n' ]; then
@@ -104,11 +104,7 @@ sed -i "s/rms ligand_rmsd :ligandindex&!:H= ref [min] out directoryname.csv//g"
 sed -i "s/surf SASA :ligandindex out directoryname.csv/''/g"
 equilperiod=$(($equilperiodraw*100))
 sed -i "s/equilperiod/$equilperiod/g" ../MD_cfg/cpptraj_prepare_and_analyze.in
-pdb4amber -f prot.pdb -o prot_4amber.pdb -y 
-mv prot.pdb prot_b4amber.pdb
-mv prot_4amber.pdb prot.pdb
 tleap -f ../MD_cfg/tleap.tleapin
-#parmed -i ../MD_cfg/parmed
 ambpdb -p ../parms/topology.parm7 -c ../rst7s/coordinates.rst7 > input_complex.pdb
 end_resid=$(grep Na+ input_complex.pdb | awk '//{print $5}' | head -n 1)
 if [ -z "$end_resid" ]
@@ -131,6 +127,8 @@ echo $last_resid_name $last_residue_index identified as N-capping aminoacid, $at
 sed -i "s/atoms_written_to_trajectory/$atom_count/g" ../MD_cfg/heat.in
 sed -i "s/atoms_written_to_trajectory/$atom_count/g" ../MD_cfg/prod.in
 sed -i "s/:clusname/:1-$last_residue_index@C,CA,N,O"
+find .. -name "*.sh" -exec sed -i "s/producer/$output_filename/g" {} \;
+find .. -name "*.sh" -exec sed -i "s/grantname/$grant_name/g" {} \;
 
 
 echo "Set of changes for CPPTRAJ"
@@ -172,8 +170,3 @@ ante-MMPBSA.py -p ../parms/topology.parm7 -c ../parms/com.parm7 -s ':WAT,:Na+,:C
 
 echo "**Preparation finished**"
 fi
-
-
-
-# antechamber -i 2m4np.gesp -fi gesp -o lig.mol2 -fo mol2 -c resp -eq 2 -nc 0
-# parmchk2 -i lig.mol2 -f mol2 -o lig.frcmod

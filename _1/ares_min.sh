@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH -A plgtrametes-cpu
+#SBATCH -A grantname
 #SBATCH -n 8            # 8 cores
 #SBATCH --time=3:00:00
 #SBATCH --mail-type=ALL
