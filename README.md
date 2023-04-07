@@ -6,7 +6,10 @@
 - For protein it can be pdb file that voids ligands and, preferably, missing residues. 
 - It's advised to either protonate structure using some server (e.g. pdb2pqr) or remove all hydrogens and let AMBER do the work
 - Calculate charges for your ligand using antechamber. Using default parameters and with neutral protonation state:\
-*antechamber -i ligand.pdb -fi pdb -o lig.mol2 -fo mol2 -c bcc* && *parmchk2 -i lig.mol2 -f mol2 -o lig.frcmod*
+'antechamber -i ligand.pdb -fi pdb -o lig.mol2 -fo mol2 -c bcc && parmchk2 -i lig.mol2 -f mol2 -o lig.frcmod'
+or use respgeninput for RESP charges generation.
+gesp files you can convert using:
+'antechamber -i ligand.gesp -fi gesp -o lig.mol2 -fo mol2 -c resp -nc 0 && parmchk2 -i lig.mol2 -f mol2 -o lig.frcmod'
 Of course always check the lig.mol2 for potential artifacts.
 3. Run pro_prepare_inputs.sh and follow instructions.
 - in default, protein/complex is put in octahedric box with 12A of boundary.
